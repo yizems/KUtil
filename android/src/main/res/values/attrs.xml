@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--最大为 屏幕总高度多少  0-1 -->
+    <attr name="max_percent_height" format="float" />
+
+    <declare-styleable name="InnerListView">
+        <attr name="max_percent_height" />
+    </declare-styleable>
+
+    <declare-styleable name="InnerRecycleView">
+        <attr name="max_percent_height" />
+    </declare-styleable>
+
+    <declare-styleable name="InnerScrollView">
+        <attr name="max_percent_height" />
+    </declare-styleable>
+
+</resources>

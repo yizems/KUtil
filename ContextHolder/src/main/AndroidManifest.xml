@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.yizems.util.ktx.android.context">
+
+    <application>
+        <provider
+            android:name=".ContextHolder"
+            android:authorities="${applicationId}.lb.util.context_holder"
+            android:enabled="true"
+            android:exported="false"
+            android:multiprocess="false" />
+    </application>
+</manifest>

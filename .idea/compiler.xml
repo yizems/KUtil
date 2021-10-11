@@ -2,7 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
+      <module name="UtilKtx.android" target="11" />
       <module name="UtilKtx.app" target="11" />
+      <module name="UtilKtx.ContextHolder" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
