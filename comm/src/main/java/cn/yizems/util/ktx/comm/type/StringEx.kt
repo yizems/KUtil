@@ -3,7 +3,6 @@ package cn.yizems.util.ktx.comm.type
 import cn.yizems.util.ktx.comm.number.formatMoney
 import java.util.*
 
-
 fun CharSequence?.getOrElse(default: String = ""): String {
     if (this.isNullOrBlank()) {
         return default
