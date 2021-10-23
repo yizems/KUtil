@@ -5,6 +5,7 @@
       <module name="UtilKtx.android" target="11" />
       <module name="UtilKtx.app" target="11" />
       <module name="UtilKtx.ContextHolder" target="11" />
+      <module name="UtilKtx.okhttp" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
