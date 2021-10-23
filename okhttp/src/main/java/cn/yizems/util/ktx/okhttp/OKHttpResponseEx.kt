@@ -56,7 +56,7 @@ fun Response.cloneBodyBuffer(): Buffer? {
     val source: BufferedSource = this.body?.source() ?: return null
     // Buffer the entire body.
     source.request(Long.MAX_VALUE)
-    return source.buffer
+    return source.buffer.clone()
 }
 
 fun Response.isJson(): Boolean {
