@@ -59,3 +59,6 @@ fun Response.cloneBodyBuffer(): Buffer? {
     return source.buffer
 }
 
+fun Response.isJson(): Boolean {
+    return mediaType()?.subtype == "json"
+}
