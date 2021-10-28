@@ -1,0 +1,76 @@
+Properties loadProperties(File file) {
+    if (file.exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(file))
+        return props
+    } else {
+        return null
+    }
+}
+
+def addMaven(String repoName, File propFile) {
+    def prop = loadProperties(propFile)
+    if (prop == null) {
+        println "${repoName} 配置文件不存在:{$propFile.absolutePath}"
+        return
+    }
+    def MAVEN_PATH = prop.getProperty("MAVEN_PATH")
+    def MAVEN_PATH_SNAPSHOT = prop.getProperty("MAVEN_PATH")
+    def MAVEN_USER = prop.getProperty("MAVEN_USER")
+    def MAVEN_PWD = prop.getProperty("MAVEN_PWD")
+
+    rootProject.buildscript.repositories {
+        maven {
+            url MAVEN_PATH
+            if (MAVEN_USER != null) {
+                credentials {
+                    username MAVEN_USER
+                    password MAVEN_PWD
+                }
+            }
+        }
+    }
+
+    rootProject.subprojects {
+        repositories {
+            maven {
+                url MAVEN_PATH
+                if (MAVEN_USER != null) {
+                    credentials {
+                        username MAVEN_USER
+                        password MAVEN_PWD
+                    }
+                }
+            }
+        }
+
+        if (plugins.hasPlugin('com.android.application')) {
+            return
+        }
+
+        plugins.withId("com.vanniktech.maven.publish") {
+            publishing {
+                repositories {
+                    maven {
+                        name = repoName
+                        def releasesRepoUrl = MAVEN_PATH
+                        def snapshotsRepoUrl = MAVEN_PATH_SNAPSHOT
+                        url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                        credentials {
+                            username MAVEN_USER
+                            password MAVEN_PWD
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+}
+
+//addMaven("Nexus",file(System.getProperty("user.home")+"/.m2/nexus.properties"))
+addMaven("AliDev",file(System.getProperty("user.home")+"/.m2/alidev.properties"))
+
+//System.getProperty("user.home")+"/.m2/alidev.properties"
+//rootProject.file("alidev.properties")
