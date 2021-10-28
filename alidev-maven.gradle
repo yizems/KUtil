@@ -1,0 +1,55 @@
+def alidev_maven_url = ALIDEV_MAVEN_PATH ?: System.getenv("ALIDEV_MAVEN_PATH")
+def alidev_maven_url_snapshot = ALIDEV_MAVEN_PATH ?: System.getenv("ALIDEV_MAVEN_PATH")
+def alidev_maven_user = ALIDEV_MAVEN_USER ?: System.getenv("ALIDEV_MAVEN_USER")
+def alidev_maven_pwd = ALIDEV_MAVEN_PWD ?: System.getenv("ALIDEV_MAVEN_PWD")
+println(alidev_maven_url)
+ext {
+    ALIDEV_MAVEN_URL = alidev_maven_url
+    ALIDEV_MAVEN_URL_SNAPSHOT = alidev_maven_url_snapshot
+    ALIDEV_MAVEN_USER = alidev_maven_user
+    ALIDEV_MAVEN_PWD = alidev_maven_pwd
+}
+
+rootProject.buildscript.repositories {
+    maven {
+        url rootProject.ext.ALIDEV_MAVEN_URL
+        credentials {
+            username rootProject.ext.ALIDEV_MAVEN_USER
+            password rootProject.ext.ALIDEV_MAVEN_PWD
+        }
+    }
+}
+
+rootProject.subprojects {
+    repositories {
+        maven {
+            url rootProject.ext.ALIDEV_MAVEN_URL
+            credentials {
+                username rootProject.ext.ALIDEV_MAVEN_USER
+                password rootProject.ext.ALIDEV_MAVEN_PWD
+            }
+        }
+    }
+
+    if (plugins.hasPlugin('com.android.application')) {
+        return
+    }
+
+    plugins.withId("com.vanniktech.maven.publish") {
+        publishing {
+            repositories {
+                maven {
+                    name = "AliDev"
+                    def releasesRepoUrl = rootProject.ext.ALIDEV_MAVEN_URL
+                    def snapshotsRepoUrl = rootProject.ext.ALIDEV_MAVEN_URL_SNAPSHOT
+                    url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                    credentials {
+                        username rootProject.ext.ALIDEV_MAVEN_USER
+                        password rootProject.ext.ALIDEV_MAVEN_PWD
+                    }
+                }
+            }
+        }
+
+    }
+}

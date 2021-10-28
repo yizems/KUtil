@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'kotlin'
 }
+apply plugin: "com.vanniktech.maven.publish"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8

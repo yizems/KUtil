@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
+apply plugin: "com.vanniktech.maven.publish"
+
 android {
     compileSdk 31
 
@@ -42,6 +44,4 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:4.9.0"
     implementation project(":ContextHolder")
     implementation project(":comm")
-
-
 }
