@@ -1,22 +1,6 @@
-def alidev_maven_url = ALIDEV_MAVEN_PATH ?: System.getenv("ALIDEV_MAVEN_PATH")
-def alidev_maven_user = ALIDEV_MAVEN_USER ?: System.getenv("ALIDEV_MAVEN_USER")
-def alidev_maven_pwd = ALIDEV_MAVEN_PWD ?: System.getenv("ALIDEV_MAVEN_PWD")
-println(alidev_maven_url)
-ext {
-    ALIDEV_MAVEN_URL = alidev_maven_url
-    ALIDEV_MAVEN_USER = alidev_maven_user
-    ALIDEV_MAVEN_PWD = alidev_maven_pwd
-}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        maven {
-            url alidev_maven_url
-            credentials {
-                username alidev_maven_user
-                password alidev_maven_pwd
-            }
-        }
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
