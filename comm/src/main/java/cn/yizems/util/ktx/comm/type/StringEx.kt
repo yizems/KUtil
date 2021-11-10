@@ -3,14 +3,43 @@ package cn.yizems.util.ktx.comm.type
 import cn.yizems.util.ktx.comm.number.formatMoney
 import java.util.*
 
-fun CharSequence?.getOrElse(default: String = ""): String {
+
+infix fun CharSequence?.nullOr(default: String): String {
+    if (this == null) {
+        return default
+    }
+    return this.toString()
+}
+
+infix fun CharSequence?.nullOrNullable(default: String?): String? {
+    if (this == null) {
+        return default
+    }
+    return this.toString()
+}
+
+infix fun CharSequence?.emptyOr(default: String): String {
+    if (this.isNullOrEmpty()) {
+        return default
+    }
+    return this.toString()
+}
+
+infix fun CharSequence?.emptyOrNullable(default: String?): String? {
+    if (this.isNullOrEmpty()) {
+        return default
+    }
+    return this.toString()
+}
+
+infix fun CharSequence?.blankOr(default: String): String {
     if (this.isNullOrBlank()) {
         return default
     }
     return this.toString()
 }
 
-fun CharSequence?.getOrElseNullable(default: String? = null): String? {
+infix fun CharSequence?.blankOrNullable(default: String?): String? {
     if (this.isNullOrBlank()) {
         return default
     }
