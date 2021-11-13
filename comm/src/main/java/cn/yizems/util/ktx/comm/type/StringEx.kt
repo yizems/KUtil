@@ -1,49 +1,66 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package cn.yizems.util.ktx.comm.type
 
 import cn.yizems.util.ktx.comm.number.formatMoney
 import java.util.*
 
 
-infix fun CharSequence?.nullOr(default: String): String {
+infix fun <T : CharSequence?> CharSequence?.nullOr(other: T): T {
     if (this == null) {
-        return default
+        return other
     }
-    return this.toString()
+    return this.toString() as T
 }
 
-infix fun CharSequence?.nullOrNullable(default: String?): String? {
-    if (this == null) {
-        return default
+fun <T : CharSequence?> CharSequence?.nullOr(vararg others: T): T {
+    if (this != null) {
+        return this as T
     }
-    return this.toString()
+    others.forEach {
+        if (it != null) {
+            return it
+        }
+    }
+    return others.last()
 }
 
-infix fun CharSequence?.emptyOr(default: String): String {
+infix fun <T : CharSequence?> CharSequence?.emptyOr(other: T): T {
     if (this.isNullOrEmpty()) {
-        return default
+        return other
     }
-    return this.toString()
+    return this.toString() as T
 }
 
-infix fun CharSequence?.emptyOrNullable(default: String?): String? {
-    if (this.isNullOrEmpty()) {
-        return default
+fun <T : CharSequence?> CharSequence?.emptyOr(vararg others: T): T {
+    if (!this.isNullOrEmpty()) {
+        return this as T
     }
-    return this.toString()
+    others.forEach {
+        if (!it.isNullOrEmpty()) {
+            return it
+        }
+    }
+    return others.last()
 }
 
-infix fun CharSequence?.blankOr(default: String): String {
+infix fun <T : CharSequence?> CharSequence?.blankOr(other: T): T {
     if (this.isNullOrBlank()) {
-        return default
+        return other
     }
-    return this.toString()
+    return this.toString() as T
 }
 
-infix fun CharSequence?.blankOrNullable(default: String?): String? {
-    if (this.isNullOrBlank()) {
-        return default
+fun <T : CharSequence?> CharSequence?.blankOr(vararg others: T): T {
+    if (!this.isNullOrBlank()) {
+        return this as T
     }
-    return this.toString()
+    others.forEach {
+        if (!it.isNullOrBlank()) {
+            return it
+        }
+    }
+    return others.last()
 }
 
 /**
