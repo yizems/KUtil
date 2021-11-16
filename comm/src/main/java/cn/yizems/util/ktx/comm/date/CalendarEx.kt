@@ -37,12 +37,24 @@ fun Calendar.setFieldEx(
     return this
 }
 
+
 /**
  * 设置 [cField] 字段之后的值为开始或结束
  *
  * @param cField Int [Calendar.MONTH]
  */
-fun Calendar.toFieldStartOrEnd(cField: CalendarField = CalendarField.MONTH, start: Boolean) {
+fun Calendar.toFieldStartOrEnd(
+    cField: CalendarField = CalendarField.YEAR,
+    start: Boolean,
+) {
+
+    val optionFields = CalendarField.values().filter { it.field > cField.field }
+
+    optionFields.reversed()
+        .forEach {
+            this.set(it.field, this.getActualMinimum(cField.field))
+        }
+
     CalendarField.values()
         .forEach {
             if (it.field > cField.field) {
