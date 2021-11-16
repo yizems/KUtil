@@ -1,4 +1,4 @@
-package cn.yizems.util.ktx.comm.date
+package com.sdgh.oa.powerchina.utils
 
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,7 +46,7 @@ fun Calendar.setFieldEx(
 fun Calendar.toFieldStartOrEnd(
     cField: CalendarField = CalendarField.YEAR,
     start: Boolean,
-) {
+): Calendar {
 
     val optionFields = CalendarField.values().filter { it.field > cField.field }
 
@@ -55,14 +55,14 @@ fun Calendar.toFieldStartOrEnd(
             this.set(it.field, this.getActualMinimum(cField.field))
         }
 
-    CalendarField.values()
+    optionFields
         .forEach {
-            if (it.field > cField.field) {
-                val value =
-                    if (start) this.getActualMinimum(cField.field) else this.getActualMaximum(cField.field)
-                this.set(cField.field, value)
-            }
+            val value =
+                if (start) this.getActualMinimum(it.field) else this.getActualMaximum(it.field)
+            this.set(it.field, value)
         }
+
+    return this
 }
 
 enum class CalendarField(val field: Int) {
@@ -77,7 +77,7 @@ enum class CalendarField(val field: Int) {
 }
 
 
-fun Calendar.format(format: String = "yyyy-MM-dd hh:mm:ss.SSS"): String {
+fun Calendar.format(format: String = "yyyy-MM-dd HH:mm:ss.SSS"): String {
     return SimpleDateFormat(format)
         .format(this.time)
 }
