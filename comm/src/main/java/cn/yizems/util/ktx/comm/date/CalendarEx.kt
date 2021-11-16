@@ -1,5 +1,6 @@
 package cn.yizems.util.ktx.comm.date
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 fun Calendar.setFieldEx(
@@ -61,4 +62,10 @@ enum class CalendarField(val field: Int) {
     SECOND(Calendar.SECOND),
     MILLISECOND(Calendar.MILLISECOND),
     ;
+}
+
+
+fun Calendar.format(format: String = "yyyy-MM-dd hh:mm:ss.SSS"): String {
+    return SimpleDateFormat(format)
+        .format(this.time)
 }
