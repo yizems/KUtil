@@ -36,36 +36,29 @@ fun Calendar.setFieldEx(
     return this
 }
 
-fun Calendar.toDayStart(): Calendar {
-    setFieldEx(
-        hourOfDay = 0,
-        minute = 0,
-        second = 0,
-        millions = 0
-    )
-    return this
+/**
+ * 设置 [cField] 字段之后的值为开始或结束
+ *
+ * @param cField Int [Calendar.MONTH]
+ */
+fun Calendar.toFieldStartOrEnd(cField: CalendarField = CalendarField.MONTH, start: Boolean) {
+    CalendarField.values()
+        .forEach {
+            if (it.field > cField.field) {
+                val value =
+                    if (start) this.getActualMinimum(cField.field) else this.getActualMaximum(cField.field)
+                this.set(cField.field, value)
+            }
+        }
 }
 
-fun Calendar.toDayEnd(): Calendar {
-    setFieldEx(
-        hourOfDay = 23,
-        minute = 59,
-        second = 59,
-        millions = 999
-    )
-    return this
-}
-
-fun Calendar.millionsToStart(): Calendar {
-    setFieldEx(
-        millions = 0
-    )
-    return this
-}
-
-fun Calendar.millionsToEnd(): Calendar {
-    setFieldEx(
-        millions = 999
-    )
-    return this
+enum class CalendarField(val field: Int) {
+    YEAR(Calendar.YEAR),
+    MONTH(Calendar.MONTH),
+    DAY_OF_MONTH(Calendar.DAY_OF_MONTH),
+    HOUR_OF_DAY(Calendar.HOUR_OF_DAY),
+    MINUTE(Calendar.MINUTE),
+    SECOND(Calendar.SECOND),
+    MILLISECOND(Calendar.MILLISECOND),
+    ;
 }
