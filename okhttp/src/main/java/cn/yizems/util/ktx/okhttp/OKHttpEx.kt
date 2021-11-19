@@ -3,7 +3,6 @@ package cn.yizems.util.ktx.okhttp
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.ParcelFileDescriptor
-import cn.yizems.util.ktx.android.context.ContextHolder
 import cn.yizems.util.ktx.comm.file.uuidName
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -95,30 +94,6 @@ fun ParcelFileDescriptor.toRequestBody(): RequestBody {
 fun ParcelFileDescriptor.toMultiPart(key: String = "file"): MultipartBody.Part {
     return MultipartBody.Part.createFormData(key, "", this.toRequestBody())
 }
-
-/**
- * Uri 作为请求体
- * 适用于外部选择文件
- * @receiver Uri
- * @return ParcelFileDescriptor?
- */
-fun Uri.toRequestBody() = ContextHolder.me()
-    .contentResolver
-    .openFileDescriptor(this, "r")
-    ?.toRequestBody()
-
-/**
- * Uri 转为 [MultipartBody.Part]
- * 适用于外部选择文件
- * @receiver Uri
- * @param key String
- * @return Part?
- */
-fun Uri.toMultiPart(key: String = "file") = ContextHolder.me()
-    .contentResolver
-    .openFileDescriptor(this, "r")
-    ?.toMultiPart(key)
-
 
 //endregion
 

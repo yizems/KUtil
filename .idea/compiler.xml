@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="cn.yizems.util.ktx.UtilKtx.android-core" target="11" />
+      <module name="UtilKtx.android-context" target="11" />
+      <module name="UtilKtx.android-core" target="11" />
+      <module name="UtilKtx.app" target="11" />
+      <module name="UtilKtx.ContextHolder" target="11" />
+      <module name="UtilKtx.core" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
