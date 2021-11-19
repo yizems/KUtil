@@ -1,14 +1,17 @@
 ## KUtil
 
-### 项目初衷
+### 项目描述
 
-为Kotlin提供一些便捷方法
+kotlin 便捷方法合集
 
+### 目录
 
-
-
-
-
+- android: 安卓相关
+    - android-core: 安卓主要方法合集, 一般直接引用该类即可
+    - android-okhttp: 为安卓上使用okhttp提供的便捷方法
+    - android-context: 安卓Context全局获取类
+- okhttp: okhttp快捷方法
+- comm: 通用快捷方法: 例如集合,时间,文件等等
 
 
 ### LICENSE
