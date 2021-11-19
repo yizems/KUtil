@@ -7,8 +7,12 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "UtilKtx"
-include ':app'
 include ':comm'
-include ':android'
-include ':ContextHolder'
 include ':okhttp'
+
+include(":android:android-core")
+//project(":android-core").projectDir = new File("./android/android-core")
+
+include ':android:android-context'
+//project(":android-context").projectDir = new File("./android/android-context")
+include ':android:android-okhttp'
