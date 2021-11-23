@@ -13,6 +13,10 @@ kotlin 便捷方法合集
 - okhttp: okhttp快捷方法
 - comm: 通用快捷方法: 例如集合,时间,文件等等
 
+### THANKS
+
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
+
 
 ### LICENSE
 
