@@ -1,6 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    apply from: 'maven.gradle'
     ext.kotlin_version = '1.5.20'
     repositories {
         maven {
@@ -8,6 +7,7 @@ buildscript {
         }
         google()
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.2"
@@ -17,6 +17,21 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
+
+allprojects {
+
+    group = 'com.github.yizems'
+
+//    repositories {
+//        maven {
+//            url 'https://maven.aliyun.com/repository/public/'
+//        }
+//        google()
+//        mavenCentral()
+//        jcenter()
+//    }
+}
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
