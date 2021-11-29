@@ -80,63 +80,6 @@ fun String?.dropDatePoint(): String {
     return this
 }
 
-/**
- * 删除秒和.000
- * :2018-02-02 12:00:00.000
- * @receiver String
- * @param default String
- * @return String
- */
-fun String?.dropSecond(): String {
-    val temp = dropDatePoint()
-
-    if (temp.contains(":")) {
-        return temp.substring(0, temp.lastIndexOf(":"))
-    }
-    return temp
-}
-
-
-/**
- * 时间格式 2012-01-02 12:00:00 获取到 2012-01-02
- * @receiver String?
- * @return String
- */
-fun String?.getTimeYMD(): String {
-    if (this.isNullOrBlank()) {
-        return ""
-    }
-    if (this.contains(" ")) {
-        return this.split(" ")[0]
-    }
-    return this
-}
-
-/**
- * 处理0001-01-01 00:00:00 这种时间戳为0的时间
- * @receiver String?
- * @return Boolean
- */
-fun String?.isTimeEmpty(): Boolean {
-    if (this.isNullOrBlank()) {
-        return true
-    }
-    return this.startsWith("0001")
-}
-
-/**
- * 获取时间
- * 0001-01-01 00:00:00 这种时间戳为0的时间 返回""
- * @receiver String?
- * @return String
- */
-fun String?.getTime(): String {
-    if (this.isTimeEmpty()) {
-        return ""
-    }
-    return this!!
-}
-
 fun String?.toDoubleEx(): Double? {
     if (this.isNullOrBlank()) {
         return null
