@@ -1,9 +1,8 @@
 package cn.yizems.util.ktx.okhttp
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.ParcelFileDescriptor
-import cn.yizems.util.ktx.comm.file.uuidName
+import cn.yizems.util.ktx.comm.file.generateUuidName
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -44,7 +43,7 @@ fun String?.toJsonRequestBody() = (this ?: "{}").toRequestBody(MEDIA_TYPE_JSON)
 fun File.toRequestBody() = this.asRequestBody(MEDIA_TYPE_FORM_DATA)
 
 fun File.toMultiPart(key: String = "file", fileName: String? = null): MultipartBody.Part {
-    val rFileName = fileName ?: this.uuidName()
+    val rFileName = fileName ?: this.generateUuidName()
     return MultipartBody.Part.createFormData(key, rFileName, this.toRequestBody())
 }
 
