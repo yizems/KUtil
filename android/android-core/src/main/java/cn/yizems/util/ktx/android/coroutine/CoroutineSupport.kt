@@ -33,7 +33,6 @@ interface CoroutineSupport {
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit,
     ) {
-
         var _context = context
 
         _context += DefaultCoroutineExceptionHandler(defaultErrorToast, showHint, null)
@@ -154,5 +153,14 @@ interface CoroutineSupport {
     fun CoroutineScope.onError(callback: (Throwable) -> Any?) {
         onError(null, null, CoroutineErrorCallback(null, null, callback))
     }
+
+
+    suspend fun <T> withIOContext(
+        block: suspend CoroutineScope.() -> T
+    ) = withContext(Dispatchers.IO, block)
+
+    suspend fun <T> withMainContext(
+        block: suspend CoroutineScope.() -> T
+    ) = withContext(Dispatchers.Main, block)
 
 }
