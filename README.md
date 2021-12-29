@@ -1,5 +1,7 @@
 ## KUtil
 
+[![](https://jitpack.io/v/yizems/KUtil.svg)](https://jitpack.io/#yizems/KUtil)
+
 ### 项目描述
 
 kotlin 便捷方法合集
