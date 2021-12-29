@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdk 21
-        targetSdk 31
+        minSdkVersion rootProject.ext.MIN_SDK_VERSION
+        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
 
@@ -34,9 +34,8 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.core:core-ktx:1.3.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
     api project(":comm")
     api project(":android:android-context")
