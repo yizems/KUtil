@@ -1,0 +1,102 @@
+Properties loadProperties(File file) {
+    if (file.exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(file))
+        return props
+    } else {
+        return null
+    }
+}
+
+def addMaven(String repoName, File propFile) {
+    def prop = loadProperties(propFile)
+    if (prop == null) {
+        println "${repoName} 配置文件不存在:{$propFile.absolutePath}"
+        return
+    }
+    def mavenPath = prop.getProperty("MAVEN_PATH")
+    def mavenPathSnapshot = prop.getProperty("MAVEN_PATH")
+    def mavenUser = prop.getProperty("MAVEN_USER")
+    def mavenPwd = prop.getProperty("MAVEN_PWD")
+    addMaven(repoName, mavenPath, mavenPathSnapshot, mavenUser, mavenPwd)
+}
+
+def addEnvRepo(
+        String name = "DEFAULT_MAVEN",
+        String mavenPathKey = "MAVEN_PATH",
+        String mavenPathSnapshotKey = "MAVEN_PATH_SNAPSHOT",
+        String mavenUserKey = "MAVEN_USER",
+        String mavenPwdKey = "MAVEN_PWD"
+) {
+    def mavenPath = System.getenv(mavenPathKey)
+    def mavenPathSnapshot = System.getenv(mavenPathSnapshotKey)
+    def mavenUser = System.getenv(mavenUserKey)
+    def mavenPwd = System.getenv(mavenPwdKey)
+
+    if (mavenPath != null && !mavenPath.isBlank()) {
+        addEnvRepo(name,
+                mavenPath,
+                mavenPathSnapshot,
+                mavenUser,
+                mavenPwd)
+    }
+}
+
+def addMaven(String repoName, String mavenPath, String mavenPathSnapshot, String mavenUser, String mavenPwd) {
+
+
+    rootProject.buildscript.repositories {
+        maven {
+            url mavenPath
+            if (mavenUser != null || !mavenUser.isBlank()) {
+                credentials {
+                    username mavenUser
+                    password mavenPwd
+                }
+            }
+        }
+    }
+
+    rootProject.subprojects {
+        repositories {
+            maven {
+                url mavenPath
+                if (mavenUser != null || !mavenUser.isBlank()) {
+                    credentials {
+                        username mavenUser
+                        password mavenPwd
+                    }
+                }
+            }
+        }
+
+        if (plugins.hasPlugin('com.android.application')) {
+            return
+        }
+
+        plugins.withId("com.vanniktech.maven.publish") {
+            publishing {
+                repositories {
+                    maven {
+                        name = repoName
+                        def releasesRepoUrl = mavenPath
+                        def snapshotsRepoUrl = mavenPathSnapshot == null || mavenPathSnapshot.isBlank() ? mavenPath : mavenPathSnapshot
+                        url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                        if (mavenUser != null || !mavenUser.isBlank()) {
+                            credentials {
+                                username mavenUser
+                                password mavenPwd
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+}
+addMaven("AliDev", file(System.getProperty("user.home") + "/.m2/alidev.properties"))
+
+//System.getProperty("user.home")+"/.m2/alidev.properties"
+//rootProject.file("alidev.properties")
