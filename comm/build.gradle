@@ -11,4 +11,5 @@ java {
 dependencies {
     api 'com.squareup.okio:okio:2.10.0'
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2")
+    api("org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}")
 }
