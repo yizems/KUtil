@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package cn.yizems.util.ktx.android.context
 
 import android.annotation.SuppressLint
@@ -7,6 +9,8 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 
+
+inline fun getGlobalContext() = ContextHolder.me()
 
 /**
  * 获取context
