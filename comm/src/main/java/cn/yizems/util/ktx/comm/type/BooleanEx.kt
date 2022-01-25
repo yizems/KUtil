@@ -1,34 +1,35 @@
+@file:Suppress("NOTHING_TO_INLINE")
 package cn.yizems.util.ktx.comm.type
 
-inline fun Boolean?.onTrue(block: () -> Unit?): Boolean? {
+inline fun Boolean?.onTrue(block: () -> Unit): Boolean? {
     if (this == true) {
         block()
     }
     return this
 }
 
-inline fun Boolean?.onFalse(block: () -> Unit?): Boolean? {
+inline fun Boolean?.onFalse(block: () -> Unit): Boolean? {
     if (this == false) {
         block()
     }
     return this
 }
 
-inline fun Boolean?.onNull(block: () -> Unit?): Boolean? {
+inline fun Boolean?.onNull(block: () -> Unit): Boolean? {
     if (this == null) {
         block()
     }
     return this
 }
 
-inline fun Boolean?.onNotTure(block: (Boolean?) -> Unit?): Boolean? {
+inline fun Boolean?.onNotTure(block: (Boolean?) -> Unit): Boolean? {
     if (this == null) {
         block(this)
     }
     return this
 }
 
-inline fun Boolean?.onNotFalse(block: (Boolean?) -> Unit?): Boolean? {
+inline fun Boolean?.onNotFalse(block: (Boolean?) -> Unit): Boolean? {
     if (this != false) {
         block(this)
     }
