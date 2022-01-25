@@ -10,6 +10,8 @@ import android.app.Application
 @SuppressLint("StaticFieldLeak")
 object ActivityStackManager {
 
+    private var initialized = false
+
     private val list = mutableListOf<Activity>()
 
     private var curAct: Activity? = null
@@ -17,6 +19,9 @@ object ActivityStackManager {
     fun getCurActivity() = curAct
 
     fun registerCallback(application: Application) {
+        if (initialized) {
+            return
+        }
         application.registerActivityLifecycleCallbacks(KtActivityLifecycle {
 
             created = { activity, _ ->
@@ -36,6 +41,7 @@ object ActivityStackManager {
                 list.remove(activity)
             }
         })
+        initialized = true
     }
 
     fun exitApp() {
