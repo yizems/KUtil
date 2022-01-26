@@ -12,6 +12,7 @@ import android.net.Uri
 
 
 fun getGlobalContext() = ContextHolder.me()
+
 fun getApplication() = ContextHolder.me() as Application
 
 /**
@@ -22,6 +23,14 @@ class ContextHolder : ContentProvider() {
     companion object {
 
         private var appContext: Context? = null
+
+        /**
+         * 如果想要再Application.oncreate 之前使用,使用该方法先注册
+         * @param application Application
+         */
+        fun setApplication(application: Application) {
+            appContext = application
+        }
 
         internal fun me(): Context {
             if (appContext != null) {
@@ -50,7 +59,9 @@ class ContextHolder : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        appContext = context!!.applicationContext
+        if (appContext == null) {
+            appContext = context!!.applicationContext
+        }
         return true
     }
 
