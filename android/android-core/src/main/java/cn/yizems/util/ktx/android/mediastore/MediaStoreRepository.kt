@@ -7,7 +7,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
-import cn.yizems.util.ktx.android.context.ContextHolder
+import cn.yizems.util.ktx.android.context.getGlobalContext
 import cn.yizems.util.ktx.comm.random.uuid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -52,7 +52,7 @@ object MediaStoreRepository {
         withContext(Dispatchers.IO) {
             val uri = insertToMediaStoreRecord(dir, title ?: file.name)
             file.inputStream().use { inputStream ->
-                ContextHolder.me()
+                getGlobalContext()
                     .contentResolver
                     .openOutputStream(uri, "w")!!
                     .use { outputStream: OutputStream ->
@@ -97,7 +97,7 @@ object MediaStoreRepository {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val uri = insertToMediaStoreRecord(dir, fileName)
-            ContextHolder.me().contentResolver
+            getGlobalContext().contentResolver
                 .openOutputStream(uri, "w")
                 .use {
                     bitmap.compress(compatFormat, 100, it)
@@ -134,7 +134,7 @@ object MediaStoreRepository {
             Environment.DIRECTORY_DOWNLOADS -> MediaStore.Downloads.EXTERNAL_CONTENT_URI
             else -> throw IllegalArgumentException("不支持的 文件夹类型,当前为: $dir")
         }
-        return@withContext ContextHolder.me()
+        return@withContext getGlobalContext()
             .contentResolver
             .insert(exContentUri, newValues)!!
     }

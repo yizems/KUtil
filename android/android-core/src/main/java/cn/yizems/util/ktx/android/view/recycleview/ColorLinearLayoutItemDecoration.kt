@@ -7,6 +7,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.yizems.util.ktx.android.context.ContextHolder
+import cn.yizems.util.ktx.android.context.getGlobalContext
 import cn.yizems.util.ktx.android.dimens.dp2px
 
 /**
@@ -20,7 +21,7 @@ import cn.yizems.util.ktx.android.dimens.dp2px
 class ColorLinearLayoutItemDecoration(
     private val startPaddingPx: Float = 0F,
     private val endPaddingPx: Float = 0F,
-    private val dividerHeightPx: Float = ContextHolder.me().dp2px(0.5F).toFloat(),
+    private val dividerHeightPx: Float = getGlobalContext().dp2px(0.5F).toFloat(),
     private val dividerColor: Int,
     private val skipPosition: ((position: Int) -> Boolean)? = null
 ) : RecyclerView.ItemDecoration() {
