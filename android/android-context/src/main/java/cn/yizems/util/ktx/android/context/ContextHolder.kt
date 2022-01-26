@@ -3,6 +3,7 @@
 package cn.yizems.util.ktx.android.context
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
@@ -10,7 +11,8 @@ import android.database.Cursor
 import android.net.Uri
 
 
-inline fun getGlobalContext() = ContextHolder.me()
+fun getGlobalContext() = ContextHolder.me()
+fun getApplication() = ContextHolder.me() as Application
 
 /**
  * 获取context
@@ -21,7 +23,7 @@ class ContextHolder : ContentProvider() {
 
         private var appContext: Context? = null
 
-        fun me(): Context {
+        internal fun me(): Context {
             if (appContext != null) {
                 return appContext!!
             }
