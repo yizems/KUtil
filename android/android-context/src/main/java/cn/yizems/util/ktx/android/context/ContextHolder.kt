@@ -29,6 +29,9 @@ class ContextHolder : ContentProvider() {
          * @param application Application
          */
         fun setApplication(application: Application) {
+            if (appContext != null) {
+                return
+            }
             appContext = application
         }
 
