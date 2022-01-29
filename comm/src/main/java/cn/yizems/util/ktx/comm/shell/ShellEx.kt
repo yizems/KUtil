@@ -1,5 +1,19 @@
 package cn.yizems.util.ktx.comm.shell
 
+import java.io.File
+
+
+fun String.execute(envp: Array<String>? = null, dir: File? = null) {
+    Runtime.getRuntime()
+        .exec(this, envp, dir)
+}
+
+fun Array<String>.execute(envp: Array<String>? = null, dir: File? = null) {
+    Runtime.getRuntime()
+        .exec(this, envp, dir)
+}
+
+
 /**
  * 扩展Process扩展 text() 函数
  */
