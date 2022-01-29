@@ -3,13 +3,13 @@ package cn.yizems.util.ktx.comm.shell
 import java.io.File
 
 
-fun String.execute(envp: Array<String>? = null, dir: File? = null) {
-    Runtime.getRuntime()
+fun String.execute(envp: Array<String>? = null, dir: File? = null): Process {
+    return Runtime.getRuntime()
         .exec(this, envp, dir)
 }
 
-fun Array<String>.execute(envp: Array<String>? = null, dir: File? = null) {
-    Runtime.getRuntime()
+fun Array<String>.execute(envp: Array<String>? = null, dir: File? = null): Process {
+    return Runtime.getRuntime()
         .exec(this, envp, dir)
 }
 
