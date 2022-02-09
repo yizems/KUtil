@@ -28,7 +28,11 @@ fun TextView.getTextByTrim(): String {
 }
 
 fun TextView.setMaxLengths(max: Int) {
-    filters = arrayOf(InputFilter.LengthFilter(max))
+    filters =  this.filters.filterNot { it is InputFilter.LengthFilter }
+        .toMutableList()
+        .apply {
+            add(InputFilter.LengthFilter(max))
+        }.toTypedArray()
 }
 
 fun TextView.getDouble(): Double? {
@@ -68,7 +72,7 @@ fun TextView.getOrElse(default: String): String {
 }
 
 fun TextView.setTextChangeListener(onTextChanged: () -> Unit): TextWatcher {
-    val watcher = object : TextWatcher {
+    var watcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
         }
 
@@ -86,7 +90,6 @@ fun TextView.setTextChangeListener(onTextChanged: () -> Unit): TextWatcher {
 fun TextView.clear() {
     text = ""
 }
-
 
 fun EditText.clear() {
     setText("")
@@ -113,3 +116,22 @@ var EditText.readonly: Boolean
         editable = !value
     }
 
+/**
+ * 字符转大写
+ * @receiver TextView
+ */
+fun TextView.allCaps() {
+    val filters = this.filters.toMutableList()
+    filters.add(InputFilter.AllCaps())
+    this.filters = filters.toTypedArray()
+}
+
+/**
+ * 取消字符转大写
+ * @receiver TextView
+ */
+fun TextView.removeAllCaps() {
+    this.filters = this.filters
+        .filterNot { it is InputFilter.AllCaps }
+        .toTypedArray()
+}
