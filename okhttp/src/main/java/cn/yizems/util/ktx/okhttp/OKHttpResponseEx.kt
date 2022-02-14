@@ -3,6 +3,7 @@ package cn.yizems.util.ktx.okhttp
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Response
+import okhttp3.internal.headersContentLength
 import okio.Buffer
 import okio.BufferedSource
 import okio.GzipSource
@@ -61,4 +62,25 @@ fun Response.cloneBodyBuffer(): Buffer? {
 
 fun Response.isJson(): Boolean {
     return mediaType()?.subtype == "json"
+}
+
+/**
+ * 按照顺序依次往下取, 直到取到为止,取不到为-1
+ * 1. header
+ * 2. body.length
+ * 3. body.source.buffer.size: 不一定准确: 特别是在 stream的时候
+ * @receiver Response
+ * @return Long
+ */
+fun Response.contentLengthCompat(): Long {
+    var length = headersContentLength()
+    if (length > 0) {
+        return length
+    }
+    length = this.body?.contentLength() ?: -1L
+    if (length > 0) {
+        return length
+    }
+    length = this.body?.source()?.buffer?.size ?: -1
+    return length
 }
