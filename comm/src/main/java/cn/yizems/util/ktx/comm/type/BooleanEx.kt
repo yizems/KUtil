@@ -23,7 +23,7 @@ inline fun Boolean?.onNull(block: () -> Unit): Boolean? {
 }
 
 inline fun Boolean?.onNotTure(block: (Boolean?) -> Unit): Boolean? {
-    if (this == null) {
+    if (this != true) {
         block(this)
     }
     return this
