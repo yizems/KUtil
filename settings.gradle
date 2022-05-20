@@ -1,4 +1,4 @@
-rootProject.name = "UtilKtx"
+rootProject.name = "KUtil"
 include ':comm'
 include ':okhttp'
 

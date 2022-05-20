@@ -19,7 +19,6 @@ class DefaultCoroutineExceptionHandler(
 ) : AbstractCoroutineContextElement(CoroutineExceptionHandler), CoroutineExceptionHandler {
 
     override fun handleException(context: CoroutineContext, exception: Throwable) {
-//        KLog.e(exception)
         context.cancel()
 
         val intercept = coroutineErrorCallback?.callback?.invoke(exception)
@@ -55,11 +54,10 @@ class DefaultCoroutineExceptionHandler(
         if (!showHint) {
             return
         }
-        // TODO: 2021/10/26
         if (exceptionMsg != null) {
-//            ToastCompat.makeText(ContextHolder.get(), exceptionMsg, ToastCompat.DURATION_LONG).show()
+            ToastProvider.showShort(exceptionMsg)
         } else if (msgId != 0 && showHint) {
-//            ToastCompat.makeText(ContextHolder.get(), msgId, ToastCompat.DURATION_LONG).show()
+            ToastProvider.showShort(msgId)
         }
     }
 
