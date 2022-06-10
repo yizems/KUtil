@@ -19,12 +19,12 @@ object AppSignUtil {
     fun getSign(packageName: String = getGlobalContext().packageName): Array<out Signature>? {
         val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             getGlobalContext().packageManager.getPackageInfo(
-                getGlobalContext().packageName,
+                packageName,
                 PackageManager.GET_SIGNING_CERTIFICATES
             )
         } else {
             getGlobalContext().packageManager.getPackageInfo(
-                getGlobalContext().packageName,
+                packageName,
                 PackageManager.GET_SIGNATURES
             )
         }
