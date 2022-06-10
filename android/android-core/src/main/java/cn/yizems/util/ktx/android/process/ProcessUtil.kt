@@ -7,7 +7,7 @@ import cn.yizems.util.ktx.android.process.ProcessUtil.cacheProcessName
 
 /**
  * 进程相关工具
- * 有些莫名其妙的bug, 怀疑是多进程下,某些情况 Application 多次初始化产生的
+ * 有些莫名其妙的bug, 怀疑是多进程的问题
  * @property cacheProcessName String? 缓存进程名字
  */
 object ProcessUtil {
