@@ -14,7 +14,7 @@ import javax.net.ssl.X509TrustManager
 
 //region media type
 
-const val MEDIA_TYPE_JSON_STR = "application/json; charset=utf-8"
+const val MEDIA_TYPE_JSON_STR = "application/json;charset=utf-8"
 
 val MEDIA_TYPE_JSON by lazy { MEDIA_TYPE_JSON_STR.toMediaType() }
 
