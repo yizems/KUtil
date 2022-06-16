@@ -9,9 +9,10 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.security.MessageDigest
 
-
+// 路径转文件
 inline fun String.toFile() = File(this)
 
+// 获取一个随机文件名,但是并没有重命名
 fun File.generateUuidName(): String {
     return this.name.let {
         if (it.contains(".")) {
@@ -38,7 +39,8 @@ fun File.rename(name: String, renameSuffix: Boolean = false) {
 }
 
 /**
- * 防止部分情况下获取父文件[File] 为空的情况
+ * 防止部分情况下获取父文件[File] 为空的情况 : 安卓中常见
+ *
  * @receiver File
  * @return File
  */
@@ -59,7 +61,9 @@ inline fun File.brother(name: String) = File(parentFileCompat(), name)
  */
 inline fun File.child(name: String) = File(this, name)
 
-
+/**
+ * 获取文件夹大小, 单位B
+ */
 fun File.getDirSize(): Long {
     var size: Long = 0
     if (!this.isDirectory) {
@@ -78,9 +82,7 @@ fun File.getDirSize(): Long {
 
 /**
  * 格式化单位
- *
- * @param size
- * @return
+ * ex: 1024 -> 1K, 1024000 -> 1M
  */
 fun File.getFormatSize(): String {
 
@@ -109,7 +111,11 @@ fun File.getFormatSize(): String {
     return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB"
 }
 
-
+/**
+ * 获取文件MD5
+ *
+ * @return md5, 文件不存在返回 null
+ */
 fun File.md5(): String? {
     if (!this.exists()) {
         return null
@@ -134,6 +140,11 @@ fun File.md5(): String? {
     return bigInt.toString(16)
 }
 
+/**
+ * 删除目录
+ *
+ * @param deleteThisPath 是否删除目录
+ */
 fun File.deleteDir(
     deleteThisPath: Boolean = false
 ) {
@@ -154,9 +165,14 @@ fun File.deleteDir(
     this.delete()
 }
 
-fun InputStream.writeToFile(fPath: String) {
+/**
+ * 写入文件,并同事关闭流
+ *
+ * @param path 文件路径
+ */
+fun InputStream.writeToFile(path: String) {
     this.use { ins ->
-        fPath.toFile()
+        path.toFile()
             .apply {
                 if (exists()) {
                     this.delete()
