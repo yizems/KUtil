@@ -1,7 +1,9 @@
 package cn.yizems.util.ktx.comm.os
 
+/**
+ * 系统工具类
+ */
 object OS {
-
     fun getOSName(): String {
         return System.getProperty("os.name")
     }

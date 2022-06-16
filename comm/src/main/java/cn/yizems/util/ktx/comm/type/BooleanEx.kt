@@ -6,6 +6,11 @@ import cn.yizems.util.ktx.comm.type.BooleanType.FALSE
 import cn.yizems.util.ktx.comm.type.BooleanType.TRUE
 import kotlin.reflect.KMutableProperty0
 
+/**
+ * true 时 执行 block
+ *
+ * @return self
+ */
 inline fun Boolean?.onTrue(block: () -> Unit): Boolean? {
     if (this == true) {
         block()
@@ -13,6 +18,11 @@ inline fun Boolean?.onTrue(block: () -> Unit): Boolean? {
     return this
 }
 
+/**
+ * false 时 执行 block
+ *
+ * @return self
+ */
 inline fun Boolean?.onFalse(block: () -> Unit): Boolean? {
     if (this == false) {
         block()
@@ -20,6 +30,11 @@ inline fun Boolean?.onFalse(block: () -> Unit): Boolean? {
     return this
 }
 
+/**
+ * null 时 执行 block
+ *
+ * @return self
+ */
 inline fun Boolean?.onNull(block: () -> Unit): Boolean? {
     if (this == null) {
         block()
@@ -27,6 +42,11 @@ inline fun Boolean?.onNull(block: () -> Unit): Boolean? {
     return this
 }
 
+/**
+ * 非 true 时执行block
+ *
+ * @return self
+ */
 inline fun Boolean?.onNotTure(block: (Boolean?) -> Unit): Boolean? {
     if (this != true) {
         block(this)
@@ -34,6 +54,11 @@ inline fun Boolean?.onNotTure(block: (Boolean?) -> Unit): Boolean? {
     return this
 }
 
+/**
+ * 非 false 时执行block
+ *
+ * @return self
+ */
 inline fun Boolean?.onNotFalse(block: (Boolean?) -> Unit): Boolean? {
     if (this != false) {
         block(this)
@@ -41,10 +66,16 @@ inline fun Boolean?.onNotFalse(block: (Boolean?) -> Unit): Boolean? {
     return this
 }
 
+/**
+ * null 当做 true
+ */
 inline fun Boolean?.nullAsTrue(): Boolean {
     return this ?: true
 }
 
+/**
+ * null 当做 false
+ */
 inline fun Boolean?.nullAsFalse(): Boolean {
     return this ?: true
 }
@@ -64,14 +95,17 @@ fun Any?.toBooleanNullable(): Boolean? {
  * 转为 [Boolean], 兼容 [String] 和 [Number]
  *
  * [String] 支持的值: "true", "1", "0","yes","on",认为是true
- *
- * @receiver Any?
- * @return Boolean?
+ * null as false
+ * @return Boolean
  */
 fun Any?.toBooleanEx(): Boolean {
     return this.toBooleanExNullable() ?: false
 }
 
+/**
+ * null as null
+ * @see toBooleanEx
+ */
 fun Any?.toBooleanExNullable(): Boolean? {
     this ?: return null
 

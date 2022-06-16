@@ -5,10 +5,13 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 
 /**
- * @param removeEndZero 是否移除多余的0
- * @param format 格式化,默认####.##
+ * 数字格式化工具类
+ * 如果为null, 返回空字符串
+ *
+ * @param removeEndZero 是否移除多余的0, 如果移除, 1.00 -> 1
+ * @param format 格式化,默认###0.00
  */
-fun Number?.formatMoney(removeEndZero: Boolean = true, format: String = "####0.00"): String {
+fun Number?.formatStr(removeEndZero: Boolean = true, format: String = "####0.00"): String {
     if (this == null) {
         return ""
     }
@@ -23,16 +26,13 @@ fun Number?.formatMoney(removeEndZero: Boolean = true, format: String = "####0.0
     return result
 }
 
+@Deprecated("过时", ReplaceWith("formatStr(removeEndZero, format)"))
+fun Number?.formatMoney(removeEndZero: Boolean = true, format: String = "####0.00") =
+    formatStr(removeEndZero, format)
 
-fun Number?.toStringNullable(): String? {
-    if (this == null) {
-        return null
-    }
-    return this.toString()
-}
 
 /**
- * @receiver Number
+ * 将0.00 这样的字符串格式化为空字符串
  */
 fun Number?.getZeroAsEmpty(blank: Boolean = true): String? =
-    this.toStringNullable().getZeroAsEmpty(blank)
+    this?.toString().getZeroAsEmpty(blank)

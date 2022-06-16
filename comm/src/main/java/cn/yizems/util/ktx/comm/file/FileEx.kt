@@ -164,22 +164,3 @@ fun File.deleteDir(
     }
     this.delete()
 }
-
-/**
- * 写入文件,并同事关闭流
- *
- * @param path 文件路径
- */
-fun InputStream.writeToFile(path: String) {
-    this.use { ins ->
-        path.toFile()
-            .apply {
-                if (exists()) {
-                    this.delete()
-                }
-            }
-            .outputStream().use { ous ->
-                ins.copyTo(ous)
-            }
-    }
-}
