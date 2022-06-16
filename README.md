@@ -6,6 +6,8 @@
 
 kotlin 便捷方法合集
 
+[WIKI](./WIKI_ALL.md)
+
 ### 目录
 
 - android: 安卓相关
@@ -15,7 +17,7 @@ kotlin 便捷方法合集
 - okhttp: okhttp快捷方法
 - comm: 通用快捷方法: 例如集合,时间,文件等等
 
-![](./doc/dep.png)
+![依赖关系图](./doc/dep.png)
 
 ### THANKS
 

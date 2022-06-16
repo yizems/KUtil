@@ -4,27 +4,6 @@ package cn.yizems.util.ktx.comm.collection
  * 集合工具类
  */
 
-/**
- * 将一个list转换为一个指定类型的 数组
- * 不支持java
- * @param cast (T)->R : 转换器
- */
-inline fun <T, reified R> List<T>.listToArray(cast: (T) -> R): Array<R> {
-    return Array(size) { cast(get(it)) }
-}
-
-/**
- * 将一个list转换为一个指定类型的 数组
- * 不支持java
- * @param cast (T)->R : 转换器
- */
-inline fun <T, reified R> List<T>.converList(cast: (T) -> R): ArrayList<R> {
-    val list = ArrayList<R>()
-    forEach {
-        list.add(cast(it))
-    }
-    return list
-}
 
 /**
  * 获取不被 elements 包含的元素,
