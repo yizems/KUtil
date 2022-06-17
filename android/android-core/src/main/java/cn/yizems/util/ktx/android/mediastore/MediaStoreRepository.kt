@@ -25,8 +25,6 @@ object MediaStoreRepository {
     /**
      * 插入文件
      * @param dir String 插入到哪个目录: like [Environment.DIRECTORY_PICTURES]
-     * @param file File
-     * @param title String?
      */
     @Suppress("DEPRECATION")
     suspend fun insertFile(dir: String, file: File, title: String? = null) =

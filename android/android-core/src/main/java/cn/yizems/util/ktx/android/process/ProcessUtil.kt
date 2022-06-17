@@ -16,6 +16,7 @@ object ProcessUtil {
     @JvmStatic
     private var cacheProcessName: String? = null
 
+    /** 获取当前进程名字 */
     @JvmStatic
     fun getCurrentProcessName(context: Context): String? {
         if (!cacheProcessName.isNullOrBlank()) {
@@ -34,6 +35,7 @@ object ProcessUtil {
         return null
     }
 
+    /** 当前是否在主进程 */
     @JvmStatic
     fun isMainProcess(context: Context): Boolean {
         return getCurrentProcessName(context) == context.packageName

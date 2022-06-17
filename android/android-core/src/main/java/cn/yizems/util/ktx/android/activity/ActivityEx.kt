@@ -1,10 +1,11 @@
-package cn.yizems.util.ktx.android.context
+package cn.yizems.util.ktx.android.activity
 
 import android.app.Activity
 import android.graphics.Rect
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
+/** 关闭软键盘 */
 fun Activity.hideSoftInput() {
     var view = currentFocus
     if (view == null) view = View(this)
@@ -12,6 +13,9 @@ fun Activity.hideSoftInput() {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+/**
+ * 是否正在显示软键盘
+ */
 fun Activity.isSoftShowing(): Boolean {
     //获取当前屏幕内容的高度
     //获取当前屏幕内容的高度

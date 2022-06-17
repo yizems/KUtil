@@ -2,10 +2,12 @@
 
 package cn.yizems.util.ktx.comm.type
 
-import cn.yizems.util.ktx.comm.number.formatMoney
+import cn.yizems.util.ktx.comm.number.formatStr
 import java.util.*
 
-
+/**
+ * null 时 返回 [other]
+ */
 infix fun <T : CharSequence?> CharSequence?.nullOr(other: T): T {
     if (this == null) {
         return other
@@ -13,6 +15,9 @@ infix fun <T : CharSequence?> CharSequence?.nullOr(other: T): T {
     return this.toString() as T
 }
 
+/**
+ * null 时 返回 [others] 中不为null的值,都为 null 则返回 null
+ */
 fun <T : CharSequence?> CharSequence?.nullOr(vararg others: T): T {
     if (this != null) {
         return this as T
@@ -25,6 +30,9 @@ fun <T : CharSequence?> CharSequence?.nullOr(vararg others: T): T {
     return others.last()
 }
 
+/**
+ * empty 时 返回 [other]
+ */
 infix fun <T : CharSequence?> CharSequence?.emptyOr(other: T): T {
     if (this.isNullOrEmpty()) {
         return other
@@ -32,6 +40,9 @@ infix fun <T : CharSequence?> CharSequence?.emptyOr(other: T): T {
     return this.toString() as T
 }
 
+/**
+ * empty 时 返回 [others] 不为空的值
+ */
 fun <T : CharSequence?> CharSequence?.emptyOr(vararg others: T): T {
     if (!this.isNullOrEmpty()) {
         return this as T
@@ -44,6 +55,9 @@ fun <T : CharSequence?> CharSequence?.emptyOr(vararg others: T): T {
     return others.last()
 }
 
+/**
+ * blank 时返回 [other]
+ */
 infix fun <T : CharSequence?> CharSequence?.blankOr(other: T): T {
     if (this.isNullOrBlank()) {
         return other
@@ -51,6 +65,7 @@ infix fun <T : CharSequence?> CharSequence?.blankOr(other: T): T {
     return this.toString() as T
 }
 
+/** blank 时 返回 [others] 不为空的值 */
 fun <T : CharSequence?> CharSequence?.blankOr(vararg others: T): T {
     if (!this.isNullOrBlank()) {
         return this as T
@@ -80,6 +95,7 @@ fun String?.dropDatePoint(): String {
     return this
 }
 
+/** 转为double时, null->null, '.'->0.0 */
 fun String?.toDoubleEx(): Double? {
     if (this.isNullOrBlank()) {
         return null
@@ -91,38 +107,31 @@ fun String?.toDoubleEx(): Double? {
 }
 
 /**
- * 默认为0.0
+ * 转为double,如果出错或为null , 返回 [default]
  */
 fun String?.toDoubleOrElse(default: Double = 0.0, ignoreException: Boolean = true): Double {
-    if (ignoreException) {
+    return if (ignoreException) {
         try {
-            return this.toDoubleEx() ?: default
+            this.toDoubleEx() ?: default
         } catch (e: Throwable) {
-            e.printStackTrace()
-            return default
+            default
         }
     } else {
-        return this.toDoubleEx() ?: default
+        this.toDoubleEx() ?: default
     }
 }
 
-fun String?.toIntEx(): Int? {
-    if (this.isNullOrBlank()) {
-        return null
-    }
-    return this.toInt()
-}
-
+/** 转为int, 如果异常或为null,返回 [default] */
 fun String?.toIntOrElse(default: Int = 0, exception: Boolean = false): Int {
-    if (exception) {
+    return if (exception) {
         try {
-            return this.toIntEx() ?: default
+            this?.toInt() ?: default
         } catch (e: Throwable) {
             e.printStackTrace()
-            return default
+            default
         }
     } else {
-        return this.toIntEx() ?: default
+        this?.toInt() ?: default
     }
 }
 
@@ -138,10 +147,10 @@ fun String?.getZeroAsEmpty(blank: Boolean = true): String? {
         return ""
     }
     if (!blank) {
-        return this.toDoubleEx().formatMoney()
+        return this.toDoubleEx().formatStr()
     }
     if (this.toDouble() == 0.0) {
         return ""
     }
-    return this.toDoubleEx().formatMoney()
+    return this.toDoubleEx().formatStr()
 }

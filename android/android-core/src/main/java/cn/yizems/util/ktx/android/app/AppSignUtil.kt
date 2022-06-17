@@ -12,9 +12,7 @@ import okio.ByteString.Companion.toByteString
  * App 签名工具类
  */
 object AppSignUtil {
-    /**
-     * 获取应用签名
-     */
+    /** 获取应用签名 */
     @Suppress("DEPRECATION")
     fun getSign(packageName: String = getGlobalContext().packageName): Array<out Signature>? {
         val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -32,9 +30,7 @@ object AppSignUtil {
     }
 
 
-    /**
-     * 获取应用签名Md5
-     */
+    /** 获取应用签名Md5 */
     fun getSignMD5(packageName: String = getGlobalContext().packageName): String? {
         val sign = getSign(packageName) ?: return null
         return sign.firstOrNull()?.toByteArray()?.let {
@@ -42,9 +38,7 @@ object AppSignUtil {
         }?.md5()?.utf8()
     }
 
-    /**
-     * 获取应用签名Sha1
-     */
+    /** 获取应用签名Sha1 */
     fun getSignSHA1(packageName: String = getGlobalContext().packageName): String? {
         val sign = getSign(packageName) ?: return null
         return sign.firstOrNull()?.toByteArray()?.let {
@@ -52,9 +46,7 @@ object AppSignUtil {
         }?.sha1()?.utf8()
     }
 
-    /**
-     * 获取应用签名Sha256
-     */
+    /** 获取应用签名Sha256 */
     fun getSignSHA256(packageName: String = getGlobalContext().packageName): String? {
         val sign = getSign(packageName) ?: return null
         return sign.firstOrNull()?.toByteArray()?.let {
@@ -62,9 +54,7 @@ object AppSignUtil {
         }?.sha256()?.utf8()
     }
 
-    /**
-     * 获取某一个应用的MetaData
-     */
+    /** 获取某一个应用的MetaData */
     @SuppressLint("WrongConstant")
     @Suppress("DEPRECATION")
     fun getMetaData(packageName: String = getGlobalContext().packageName): Bundle? {

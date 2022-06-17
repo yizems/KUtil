@@ -14,8 +14,7 @@ import java.io.File
 class ApkUtil {
     /**
      * 安装APK
-     * @param downloadApk String
-     * @param context Context?
+     * @param downloadApk 文件路径
      */
     fun installApk(downloadApk: String, context: Context? = null) {
         val shadowContext = context ?: getGlobalContext()

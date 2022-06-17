@@ -1,4 +1,4 @@
-package cn.yizems.util.ktx.android.screen
+package cn.yizems.util.ktx.android.dimens
 
 import android.content.Context
 import android.util.TypedValue
@@ -36,24 +36,11 @@ fun Float.px2dp(): Float {
 }
 
 
-/**
- * px转dp
- *
- * @param context
- * @param pxVal
- * @return
- */
 fun Context.px2dp(pxVal: Float): Float {
     val scale = resources.displayMetrics.density
     return pxVal / scale
 }
 
-/**
- * px转sp
- *
- * @param pxVal
- * @return
- */
 fun Context.px2sp(pxVal: Float): Float {
     return pxVal / resources.displayMetrics.scaledDensity
 }

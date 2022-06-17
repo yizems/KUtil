@@ -67,16 +67,19 @@ class ResultWrapper<T>(
 
 }
 
-
+/**
+ * 转为 ResultWrapper
+ */
 fun <T> Result<T>.toResultWrapper(): ResultWrapper<T> {
     return ResultWrapper(this)
 }
 
 /**
- * 异常处理: 带类型
+ * 异常处理: 带类型, 无异常则不执行
+ *
+ * 如果 [block] 返回true, 则后续的异常不会再处理
  *
  * @receiver ResultWrapper<T>
- * @param block Function1<Throwable, Boolean>
  * @return ResultWrapper<T>
  */
 inline fun <T, reified R> ResultWrapper<T>.onFailureWith(block: (Throwable) -> Boolean): ResultWrapper<T> {

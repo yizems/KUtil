@@ -8,7 +8,12 @@ object IDCardValidator {
     /**
      * 校验身份证号码
      * @param idCardNum String? 身份证号码
-     * @return String? 不为空代表出错误,返回错误提示信息
+     * @return String? 不为空代表出错误,返回错误提示信息:
+     *      请输入身份证号码
+     *      身份证号码长度不正确
+     *      身份证号码有非法字符
+     *      身份证号码中出生日期不合法
+     *      身份证号码校验位错误
      */
     fun validate(idCardNum: String?): String? {
         idCardNum ?: return "请输入身份证号码"

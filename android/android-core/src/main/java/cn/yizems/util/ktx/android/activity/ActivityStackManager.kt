@@ -24,6 +24,7 @@ object ActivityStackManager {
 
     fun getCurActivity() = curAct
 
+    /** 在Application.onCreate()中先注册监听 */
     fun registerCallback(application: Application) {
 
         if (initialized) {
@@ -72,36 +73,30 @@ object ActivityStackManager {
     }
 
     /**
-     * 获取一份 activity list 的 copy
+     * 获取一份 当前存活的activity list 的 copy
      */
     @Synchronized
     fun getList() = list.toList()
 
     /**
-     *
-     * @param event Event
-     * @param block Function1<[@kotlin.ParameterName] Activity, Boolean> return true will remove
+     * 注册全局 lifeCycle 监听
      */
-    fun addListener(
-        event: Lifecycle.Event,
-        callback: LifeCallback
-    ) {
+    fun addListener(event: Lifecycle.Event, callback: LifeCallback) {
         val list = listeners[event] ?: CopyOnWriteArrayList()
         listeners[event] = list
         list.add(callback)
     }
 
-    fun removeListener(
-        event: Lifecycle.Event,
-        callback: LifeCallback
-    ) {
+    /** 移除监听 */
+    fun removeListener(event: Lifecycle.Event, callback: LifeCallback) {
         val list = listeners[event] ?: return
         list.remove(callback)
     }
 
-    fun removeListener(
-        event: Lifecycle.Event
-    ) {
+    /**
+     * 移除[event]所有监听
+     */
+    fun removeListener(event: Lifecycle.Event) {
         listeners.remove(event)
     }
 
