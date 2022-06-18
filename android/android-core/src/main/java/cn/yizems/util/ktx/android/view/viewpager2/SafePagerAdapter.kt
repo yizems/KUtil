@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 /**
+ * FIXME 补充WIKI
  * 更加安全的 adapter 实现, 配合 [IFragmentItem] 使用
  * @property items List<IFragmentItem>
  */
