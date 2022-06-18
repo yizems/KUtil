@@ -43,7 +43,7 @@ fun ParcelFileDescriptor.toRequestBody(): RequestBody {
                 source = FileInputStream(fd.fileDescriptor).source()
                 sink.writeAll(source)
             } finally {
-                source!!.closeQuietly()
+                source?.closeQuietly()
             }
         }
     }

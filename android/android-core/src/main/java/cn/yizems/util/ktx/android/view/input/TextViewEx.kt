@@ -1,11 +1,8 @@
 package cn.yizems.util.ktx.android.view.input
 
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
-import androidx.viewpager.widget.ViewPager
 import cn.yizems.util.ktx.comm.type.toDoubleEx
 import cn.yizems.util.ktx.comm.type.toDoubleOrElse
 import cn.yizems.util.ktx.comm.type.toIntOrElse
@@ -13,22 +10,24 @@ import cn.yizems.util.ktx.comm.type.toIntOrElse
 /**
  * 适用于TextView 和EditText的扩展
  */
+
+
+/** 是否为空, 空白字符也认为是空 */
 fun TextView.isEmpty(): Boolean {
     return this.text.trim().isEmpty()
 }
 
+/** 非空 */
 fun TextView.isNotEmpty(): Boolean {
     return !isEmpty()
 }
 
-fun TextView.getTextByTrim(): String {
+/** trim 过的文本 */
+fun TextView.getTrimmedText(): String {
     return this.text.trim().toString()
 }
 
-fun TextView.getTextByTrimOrDefault(default: String): String {
-    return this.text.trim().toString().orEmpty().orDefault(default)
-}
-
+/** 设置最大输入长度 */
 fun TextView.setMaxLengths(max: Int) {
     filters = this.filters.filterNot { it is InputFilter.LengthFilter }
         .toMutableList()
@@ -37,35 +36,27 @@ fun TextView.setMaxLengths(max: Int) {
         }.toTypedArray()
 }
 
+/** 获取double值 */
 fun TextView.getDouble(): Double? {
-    return getTextByTrim().toDoubleEx()
+    return getTrimmedText().toDoubleEx()
 }
 
+/** 获取double值, 如果转换失败或为空, 则返回 [default] */
 fun TextView.getDoubleOrElse(default: Double = 0.0): Double {
-    return getTextByTrim().toDoubleOrElse(default)
+    return getTrimmedText().toDoubleOrElse(default)
 }
 
+/** 获取 int 值 */
 fun TextView.getInt(): Int {
-    return getTextByTrim().toInt()
+    return getTrimmedText().toInt()
 }
 
+/** 获取int值, 如果转换失败或为空, 则返回 [default] */
 fun TextView.getIntOrElse(default: Int = 0): Int {
-    return getTextByTrim().toIntOrElse(default)
+    return getTrimmedText().toIntOrElse(default)
 }
 
-/**
- * 为空或者只有`Blank`时返回默认值
- * @receiver TextView
- * @param default String?
- * @return String ?
- */
-fun TextView.getOrElseNullable(default: String?): String? {
-    if (this.text.trim().isEmpty()) {
-        return default
-    }
-    return this.text.trim().toString()
-}
-
+/**  为空或者只有`Blank`时返回默认值: [default] 不可为null */
 fun TextView.getOrElse(default: String): String {
     if (this.text.trim().isEmpty()) {
         return default
@@ -73,21 +64,14 @@ fun TextView.getOrElse(default: String): String {
     return this.text.trim().toString()
 }
 
-fun TextView.setTextChangeListener(onTextChanged: () -> Unit): TextWatcher {
-    var watcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            onTextChanged()
-        }
+/**  为空或者只有`Blank`时返回默认值: [default] 可为 null */
+fun TextView.getOrElseNullable(default: String?): String? {
+    if (this.text.trim().isEmpty()) {
+        return default
     }
-    this.addTextChangedListener(watcher)
-    return watcher
+    return this.text.trim().toString()
 }
+
 
 fun TextView.clear() {
     text = ""
@@ -96,6 +80,15 @@ fun TextView.clear() {
 fun EditText.clear() {
     setText("")
 }
+
+/**
+ * 是否只读
+ */
+var EditText.readonly: Boolean
+    get() = !this.editable
+    set(value) {
+        editable = !value
+    }
 
 /**
  * 是否可以编辑
@@ -108,15 +101,6 @@ internal var EditText.editable: Boolean
         isLongClickable = value
     }
     get() = this.isEnabled && this.isFocusable && this.isFocusableInTouchMode
-
-/**
- * 是否只读
- */
-var EditText.readonly: Boolean
-    get() = !this.editable
-    set(value) {
-        editable = !value
-    }
 
 /**
  * 字符转大写
@@ -136,4 +120,11 @@ fun TextView.removeAllCaps() {
     this.filters = this.filters
         .filterNot { it is InputFilter.AllCaps }
         .toTypedArray()
+}
+
+/**
+ * 数据变化了的监听
+ */
+fun TextView.setOnTextChangedListener(onTextChanged: () -> Unit) {
+    addTextChangedListener(SimpleTextWatcher(onTextChanged))
 }

@@ -7,11 +7,21 @@ import cn.yizems.util.ktx.android.R
 import kotlin.math.max
 import kotlin.math.min
 
+
 /**
- * 设置文字跳过 [DecimalInputFilter] 的处理
+ * 设置为小数输入格式
+ * @param prefix 整数位
+ * @param suffix 小数位
+ */
+fun EditText.setDecimalStyle(prefix: Int = 7, suffix: Int = 2) {
+    DecimalInputTextWatcher.attach(this, prefix, suffix)
+}
+
+/**
+ * 设置文字跳过 [DecimalInputTextWatcher] 的处理
  */
 fun EditText.setTextSkipDecimalInputFilter(text: String) {
-    this.setTag(R.id.edit_text_decimal_input_filter, true)
+    this.setTag(R.id.edit_text_decimal_input_filter_skip, true)
     setText(text)
 }
 
@@ -30,7 +40,7 @@ fun EditText.setTextSkipDecimalInputFilter(text: String) {
  * @property suffix Int 小数位
  * @constructor
  */
-class DecimalInputFilter(
+internal class DecimalInputTextWatcher(
     val view: EditText,
     private val prefix: Int,
     private val suffix: Int,
@@ -49,15 +59,17 @@ class DecimalInputFilter(
             prefix: Int = 7,
             suffix: Int = 2
         ) {
-
+            if (edit.getTag(R.id.edit_text_decimal_input_filter) != null) {
+                return
+            }
             if (suffix == 0) {
                 edit.inputType = InputType.TYPE_CLASS_NUMBER
             } else {
                 edit.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER
             }
-
-
-            edit.addTextChangedListener(DecimalInputFilter(edit, prefix, suffix))
+            val watcher = DecimalInputTextWatcher(edit, prefix, suffix)
+            edit.addTextChangedListener(watcher)
+            edit.setTag(R.id.edit_text_decimal_input_filter, watcher)
         }
     }
 
@@ -85,8 +97,8 @@ class DecimalInputFilter(
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         s ?: return
 
-        if (view.getTag(R.id.edit_text_decimal_input_filter) == true) {
-            view.setTag(R.id.edit_text_decimal_input_filter, false)
+        if (view.getTag(R.id.edit_text_decimal_input_filter_skip) == true) {
+            view.setTag(R.id.edit_text_decimal_input_filter_skip, false)
             return
         }
 

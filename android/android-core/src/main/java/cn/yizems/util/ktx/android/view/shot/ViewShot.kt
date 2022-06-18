@@ -33,19 +33,6 @@ object ViewShot {
         // validate view.measurewidth and view.measureheight
         v.measure(measuredWidth, measuredHeight)
         v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight())
-
-
-//        val view = getLayoutInflater().inflate(R.layout.item_group, null)
-//        val mtv = view.findViewById(R.id.mIv) as ImageView
-//        val upPartLayoutParams = mtv.getLayoutParams()
-//        val upPartMeasureHeight = View.MeasureSpec.makeMeasureSpec(upPartLayoutParams.height, View.MeasureSpec.EXACTLY)
-//        mtv.setImageDrawable(getResources().getDrawable(R.drawable.ccc))
-//
-//        // 没有显示到界面上的view本身无大小可言，所以我们要手动指定一下
-//        SimpleUtils.layoutView(mtv, upPartMeasureHeight, upPartMeasureHeight)
-//        // View生成截图
-//        val cacheBitmapFromView = SimpleUtils.getCacheBitmapFromView(mtv)
-//        mIvResult.setImageBitmap(cacheBitmapFromView)
     }
 
 

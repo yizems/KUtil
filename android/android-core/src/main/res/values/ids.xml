@@ -4,4 +4,5 @@
     <item name="view_ex_text_watcher" type="id" />
     <item name="view_edit_focus_miss_data" type="id" />
     <item name="edit_text_decimal_input_filter" type="id" />
+    <item name="edit_text_decimal_input_filter_skip" type="id" />
 </resources>

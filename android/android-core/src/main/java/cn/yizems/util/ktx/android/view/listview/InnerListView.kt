@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.ListView
 import cn.yizems.util.ktx.android.R
-import cn.yizems.util.ktx.android.dimens.screenHeight
+import cn.yizems.util.ktx.android.screen.getScreenSize
 
 /**
  * 被ScrollView 包含的 ListView
@@ -48,7 +48,7 @@ class InnerListView : ListView {
         } else {
             //最大高度限定,仅限于 wrap_content模式
             val heightSize = MeasureSpec.getSize(heightMeasureSpec)
-            val maxHeight = (context.screenHeight() * maxPercentHeight).toInt()
+            val maxHeight = (getScreenSize().y * maxPercentHeight).toInt()
             if (maxHeight <= heightSize) {
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec)
                 setMeasuredDimension(

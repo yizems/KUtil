@@ -849,6 +849,7 @@ fun Context.getFileInfo(uri: Uri): FileInfo
 
 ```kotlin
 /**
+ * 设置为小数输入格式
  * 金额输入过滤器
  * 高仿微信转账规则
  *
@@ -858,56 +859,94 @@ fun Context.getFileInfo(uri: Uri): FileInfo
  *
  * 对于 负数,这里直接跳过,不做处理,负数默认为设置进去的值,而不是用户手动录入的值
  *
- * @property view EditText
- * @property prefix Int 整数位
- * @property suffix Int 小数位
- * @constructor
+ *
+ * @param prefix 整数位
+ * @param suffix 小数位
  */
-class DecimalInputFilter(
-    val view: EditText,
-    val prefix: Int,
-    private val suffix: Int,
-) : TextWatcher {
-
-    companion object {
-
-        /**
-         *
-         * @param edit EditText
-         * @param pre Int 整数位
-         * @param suff Int 小数位
-         */
-        fun attach(
-            edit: EditText,
-            prefix: Int = 7,
-            suffix: Int = 2
-        )
-    }
-}
+fun EditText.setDecimalStyle(prefix: Int = 7, suffix: Int = 2)
 
 /**
- * 设置文字跳过 [DecimalInputFilter] 的处理
+ * 设置文字跳过 [setDecimalStyle] 的处理
  */
 fun EditText.setTextSkipDecimalInputFilter(text: String)
 ```
 
-### EditTextEx 扩展类
+### TextViewEx TextView 和 EditTextEx 常用扩展
+
+```kotlin
+/** 是否为空, 空白字符也认为是空 */
+fun TextView.isEmpty(): Boolean
+
+/** 非空 */
+fun TextView.isNotEmpty(): Boolean
+
+/** trim 过的文本 */
+fun TextView.getTrimmedText(): String
+
+/** 设置最大输入长度 */
+fun TextView.setMaxLengths(max: Int)
+
+/** 获取double值 */
+fun TextView.getDouble(): Double?
+
+/** 获取double值, 如果转换失败或为空, 则返回 [default] */
+fun TextView.getDoubleOrElse(default: Double = 0.0): Double
+
+/** 获取 int 值 */
+fun TextView.getInt(): Int
+
+/** 获取int值, 如果转换失败或为空, 则返回 [default] */
+fun TextView.getIntOrElse(default: Int = 0): Int
+
+/**  为空或者只有`Blank`时返回默认值: [default] 不可为null */
+fun TextView.getOrElse(default: String): String
+
+/**  为空或者只有`Blank`时返回默认值: [default] 可为 null */
+fun TextView.getOrElseNullable(default: String?): String?
+fun TextView.clear()
+fun EditText.clear()
+
+/**
+ * 是否只读
+ */
+var EditText.readonly: Boolean
+
+/**
+ * 字符转大写
+ * @receiver TextView
+ */
+fun TextView.allCaps()
+
+/**
+ * 取消字符转大写
+ * @receiver TextView
+ */
+fun TextView.removeAllCaps()
+
+/**
+ * 数据变化了的监听
+ */
+fun TextView.setOnTextChangedListener(onTextChanged: () -> Unit)
+```
+
+### EditTextEx 扩展类, EditTextEx特有方法
 
 ```kotlin
 /**
  * 整数型,有焦点后 如果内容为0,删除,失去焦点,如果内容为空,自动填充0
  */
-fun EditText.addNumbInputEvent()
+fun EditText.autoRemoveZeroOnFocused()
 
 /**
  * 焦点消失时,数据变化了的监听
  */
 fun EditText.setFocusMissDataChangedListener(onChanged: (oldStr: String, newStr: String) -> Unit)
 
-/**
- * 数据变化了的监听
- */
-fun TextView.setOnTextChangedListener(onTextChanged: () -> Unit)
+/** 添加焦点监听事件: 可以添加多次,监听按照添加顺序调用 */
+fun EditText.addFocusChangeListener(focusChangedListener: View.OnFocusChangeListener)
+
+/** 移除焦点监听事件 */
+fun EditText.removeFocusChangeListener(focusChangedListener: View.OnFocusChangeListener)
 
 ```
 

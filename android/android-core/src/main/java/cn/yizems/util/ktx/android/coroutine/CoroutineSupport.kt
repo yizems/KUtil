@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
+/** FIXME 补充文档 */
 interface CoroutineSupport {
 
     /**

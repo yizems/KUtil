@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ScrollView
 import cn.yizems.util.ktx.android.R
-import cn.yizems.util.ktx.android.dimens.screenHeight
+import cn.yizems.util.ktx.android.screen.getScreenSize
 
 /**
- * 可以被嵌套的ScrollView,实现原理和 [InnerListView] 一样
+ * 可以被嵌套的ScrollView,实现原理和 [cn.yizems.util.ktx.android.view.listview.InnerListView] 一样
  */
 class InnerScrollView : ScrollView {
     private var maxHeightPercent = 0f
@@ -27,7 +27,7 @@ class InnerScrollView : ScrollView {
         } else {
             //最大高度限定,仅限于 wrap_content模式
             val measuredHeight: Int = getMeasuredHeight()
-            val maxHeight = (context.screenHeight() * maxHeightPercent).toInt()
+            val maxHeight = (getScreenSize().y * maxHeightPercent).toInt()
             if (maxHeight <= measuredHeight) {
                 //最大高度限定
                 val expandSpec: Int = MeasureSpec.makeMeasureSpec(
