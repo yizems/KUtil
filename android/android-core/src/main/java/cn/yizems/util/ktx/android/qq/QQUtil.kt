@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 
-
+/** QQ工具类 */
 object QQUtil {
+    /** 跳转到 QQ聊天 */
     fun toChat(context: Context, no: String): Boolean {
         try {
             val url = "mqqwpa://im/chat?chat_type=wpa&uin=$no"

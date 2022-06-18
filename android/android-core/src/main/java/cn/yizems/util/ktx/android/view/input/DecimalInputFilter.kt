@@ -7,7 +7,9 @@ import cn.yizems.util.ktx.android.R
 import kotlin.math.max
 import kotlin.math.min
 
-
+/**
+ * 设置文字跳过 [DecimalInputFilter] 的处理
+ */
 fun EditText.setTextSkipDecimalInputFilter(text: String) {
     this.setTag(R.id.edit_text_decimal_input_filter, true)
     setText(text)
@@ -30,8 +32,8 @@ fun EditText.setTextSkipDecimalInputFilter(text: String) {
  */
 class DecimalInputFilter(
     val view: EditText,
-    val prefix: Int,
-    val suffix: Int,
+    private val prefix: Int,
+    private val suffix: Int,
 ) : TextWatcher {
 
     companion object {
@@ -118,12 +120,6 @@ class DecimalInputFilter(
         view.setSelection(max(handler.cursorIndex, 0))
 
     }
-
-
-    private fun handleInteger(integer: String, before: Int, count: Int) {
-
-    }
-
 
     override fun afterTextChanged(s: Editable?) {
 

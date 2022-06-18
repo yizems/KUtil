@@ -5,16 +5,14 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
+import androidx.viewpager.widget.ViewPager
 import cn.yizems.util.ktx.comm.type.toDoubleEx
 import cn.yizems.util.ktx.comm.type.toDoubleOrElse
-import cn.yizems.util.ktx.comm.type.toIntEx
 import cn.yizems.util.ktx.comm.type.toIntOrElse
 
 /**
  * 适用于TextView 和EditText的扩展
- * Created by YZL on 2018/2/8.
  */
-
 fun TextView.isEmpty(): Boolean {
     return this.text.trim().isEmpty()
 }
@@ -27,8 +25,12 @@ fun TextView.getTextByTrim(): String {
     return this.text.trim().toString()
 }
 
+fun TextView.getTextByTrimOrDefault(default: String): String {
+    return this.text.trim().toString().orEmpty().orDefault(default)
+}
+
 fun TextView.setMaxLengths(max: Int) {
-    filters =  this.filters.filterNot { it is InputFilter.LengthFilter }
+    filters = this.filters.filterNot { it is InputFilter.LengthFilter }
         .toMutableList()
         .apply {
             add(InputFilter.LengthFilter(max))
@@ -43,8 +45,8 @@ fun TextView.getDoubleOrElse(default: Double = 0.0): Double {
     return getTextByTrim().toDoubleOrElse(default)
 }
 
-fun TextView.getInt(): Int? {
-    return getTextByTrim().toIntEx()
+fun TextView.getInt(): Int {
+    return getTextByTrim().toInt()
 }
 
 fun TextView.getIntOrElse(default: Int = 0): Int {
@@ -98,7 +100,7 @@ fun EditText.clear() {
 /**
  * 是否可以编辑
  */
-var EditText.editable: Boolean
+internal var EditText.editable: Boolean
     set(value) {
         isEnabled = value
         isFocusable = value

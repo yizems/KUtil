@@ -2,12 +2,13 @@ package cn.yizems.util.ktx.android.view.input
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.TextView
 
 /**
  * 简单的TextChangeListener
  * Created by YZL on 2017/12/20.
  */
-class KtTextWatcher(var onTextChanged: () -> Unit) : TextWatcher {
+internal class SimpleTextWatcher(var onTextChanged: () -> Unit) : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
 
     }
@@ -26,5 +27,4 @@ class KtTextWatcher(var onTextChanged: () -> Unit) : TextWatcher {
         onTextChanged()
         handing = false
     }
-
 }

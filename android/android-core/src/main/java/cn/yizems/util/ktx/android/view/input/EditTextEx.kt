@@ -2,12 +2,12 @@ package cn.yizems.util.ktx.android.view.input
 
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import cn.yizems.util.ktx.android.R
 
 
 /**
  * 整数型,有焦点后 如果内容为0,删除,失去焦点,如果内容为空,自动填充0
- * @receiver EditText
  */
 fun EditText.addNumbInputEvent() {
     val mV = this
@@ -31,7 +31,14 @@ fun EditText.setFocusMissDataChangedListener(onChanged: (oldStr: String, newStr:
     this.onFocusChangeListener = FocusMissDataChangedListener(this, onChanged)
 }
 
-class FocusMissDataChangedListener(
+/**
+ * 数据变化了的监听
+ */
+fun TextView.setOnTextChangedListener(onTextChanged: () -> Unit) {
+    addTextChangedListener(SimpleTextWatcher(onTextChanged))
+}
+
+private class FocusMissDataChangedListener(
     private val editText: EditText,
     val onChanged: (oldStr: String, newStr: String) -> Unit
 ) : View.OnFocusChangeListener {

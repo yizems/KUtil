@@ -11,6 +11,7 @@ import cn.yizems.util.ktx.android.dimens.dp2px
  * 获取状态栏高度
  * 待完善
  */
+// FIXME: 待完善
 object NotchUtil {
     /**
      * 华为检测是否有刘海

@@ -21,6 +21,12 @@ inline fun File.getUri(context: Context): Uri {
     }
 }
 
+/**
+ * 文件信息
+ * @property name 文件名
+ * @property uri 文件uri
+ * @property length 文件大小
+ */
 data class FileInfo(
     var length: Long,
     var name: String,

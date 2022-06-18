@@ -715,4 +715,199 @@ object ProcessUtil {
 }
 ```
 
-###  
+###  QQUtil 应用QQ工具类
+
+```kotlin
+/** 跳转到 QQ聊天 */
+fun toChat(context: Context, no: String): Boolean
+/**
+ * 在跳转到QQ群页面前，需要先获取要跳转到QQ群的Key，
+ * 获取Key的网址：https://qun.qq.com/join.html
+ * @param key 由官网生成的key
+ */
+fun toGroup(context: Context, key: String): Boolean 
+```
+
+###  ScreenUtil.kt 屏幕工具类
+```kotlin
+/**
+ * 获取屏幕宽高:已减去装饰,
+ *
+ * @see [android.view.Display.getSize]
+ * 区别参照 [android.view.Display.getRealSize]
+ *
+ * @return Point
+ */
+@Suppress("DEPRECATION")
+fun getScreenSize(): Point
+
+/**
+ * 获取屏幕真实宽高
+ * @see android.view.Display.getRealSize
+ * @return Point
+ */
+@Suppress("DEPRECATION")
+fun getScreenRealSize(): Point
+
+/**
+ * Gets the size of the display as a rectangle, in pixels.
+ *
+ * @see android.view.Display.getRectSize
+ * @return Rect
+ */
+@Suppress("DEPRECATION")
+fun getScreenRectSize(): Rect
+
+/**
+ * 获取状态栏高度
+ * 状态栏如果不存在,可能会得到0
+ * @return
+ */
+fun getStatusBarHeight(): Int 
+
+```
+
+### ShareUtil 系统分享工具类
+
+```kotlin
+/**
+ * 分享文本
+ */
+@JvmStatic
+fun shareText(context: Context, text: String, title: String = DEFAULT_SHARE_TITLE) 
+/** 分享一张图片 */
+@JvmStatic
+fun shareImage(context: Context, file: File, title: String = DEFAULT_SHARE_TITLE) 
+/**
+ * 分享多张图片
+ */
+@JvmStatic
+fun shareMulImage(
+    context: Context,
+    files: ArrayList<File>,
+    title: String = DEFAULT_SHARE_TITLE
+)
+/** 分享一个文件 */
+@JvmStatic
+fun shareFile(
+    context: Context, file: File,
+    mime: String = "*/*",
+    title: String = DEFAULT_SHARE_TITLE
+) 
+/** 分享多个文件 */
+@JvmStatic
+fun shareMulFile(
+    context: Context, files: ArrayList<File>,
+    mime: String = "*/*",
+    title: String = DEFAULT_SHARE_TITLE
+)
+```
+
+### FileUri 文件Uri 工具类
+
+方面获取文件Uri的一些信息
+
+```kotlin
+
+/**
+ * 获取File的Uri,兼容Android 7 的fileProvider
+ */
+inline fun File.getUri(context: Context): Uri
+
+
+
+/**
+ * 文件信息
+ * @property name 文件名
+ * @property uri 文件uri
+ * @property length 文件大小
+ */
+data class FileInfo
+
+
+/**
+ * 获取文件信息,主要是外部的文件uri
+ * @receiver Context
+ * @param uriString String
+ * @return FileInfo
+ */
+fun Context.getFileInfo(uriString: String): FileInfo
+
+/**
+ * 获取文件信息,主要是外部的文件uri
+ *
+ * @receiver Context
+ * @param uri Uri
+ * @return FileInfo
+ */
+fun Context.getFileInfo(uri: Uri): FileInfo
+
+```
+
+### DecimalInputFilter 小数输入框处理器
+
+
+```kotlin
+/**
+ * 金额输入过滤器
+ * 高仿微信转账规则
+ *
+ * 可以精确控制整数位和小数位位置
+ *
+ * 配合[setTextSkipDecimalInputFilter] 可以设置进去不符合规则的数值
+ *
+ * 对于 负数,这里直接跳过,不做处理,负数默认为设置进去的值,而不是用户手动录入的值
+ *
+ * @property view EditText
+ * @property prefix Int 整数位
+ * @property suffix Int 小数位
+ * @constructor
+ */
+class DecimalInputFilter(
+    val view: EditText,
+    val prefix: Int,
+    private val suffix: Int,
+) : TextWatcher {
+
+    companion object {
+
+        /**
+         *
+         * @param edit EditText
+         * @param pre Int 整数位
+         * @param suff Int 小数位
+         */
+        fun attach(
+            edit: EditText,
+            prefix: Int = 7,
+            suffix: Int = 2
+        )
+    }
+}
+
+/**
+ * 设置文字跳过 [DecimalInputFilter] 的处理
+ */
+fun EditText.setTextSkipDecimalInputFilter(text: String)
+```
+
+### EditTextEx 扩展类
+
+```kotlin
+/**
+ * 整数型,有焦点后 如果内容为0,删除,失去焦点,如果内容为空,自动填充0
+ */
+fun EditText.addNumbInputEvent()
+
+/**
+ * 焦点消失时,数据变化了的监听
+ */
+fun EditText.setFocusMissDataChangedListener(onChanged: (oldStr: String, newStr: String) -> Unit)
+
+/**
+ * 数据变化了的监听
+ */
+fun TextView.setOnTextChangedListener(onTextChanged: () -> Unit)
+
+```
+
