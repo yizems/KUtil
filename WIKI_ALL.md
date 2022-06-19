@@ -950,3 +950,13 @@ fun EditText.removeFocusChangeListener(focusChangedListener: View.OnFocusChangeL
 
 ```
 
+### DeviceInfo.kt 设备信息
+
+```kotlin
+/**
+ * 获取AndroidId
+ * @see Settings.Secure.ANDROID_ID
+ */
+fun getAndroidId(): String 
+```
+
