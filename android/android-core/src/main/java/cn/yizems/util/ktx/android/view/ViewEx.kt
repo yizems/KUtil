@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.annotation.Px
 
+/**
+ * 是对于 ktx 的补充, ktx 中有的方法,这里没有实现
+ */
 
 /**
  * [doOnPreDraw] 的扩展,action 返回值决定是否取消绘制
@@ -28,6 +31,10 @@ inline fun View.doOnPreDrawEx(crossinline action: (view: View) -> Boolean) {
     })
 }
 
+/**
+ * 获取焦点
+ * 会设置 [View.isFocusableInTouchMode] [View.isEnabled] 为 true
+ */
 fun View.requestFocusEx() {
     this.isFocusable = true
     this.isFocusableInTouchMode = true
@@ -35,7 +42,9 @@ fun View.requestFocusEx() {
     this.requestFocus()
 }
 
-
+/**
+ * 设置 View 的 margin
+ */
 inline fun View.updateMargins(
     @Px left: Int? = null,
     @Px top: Int? = null,

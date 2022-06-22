@@ -59,6 +59,7 @@ object ViewShot {
 
     /**
      * 对ScrollView进行截图
+     *
      * @param scrollView
      * @return
      */
@@ -78,6 +79,7 @@ object ViewShot {
 
     /**
      * 对ListView进行截图
+     *
      * http://stackoverflow.com/questions/12742343/android-get-screenshot-of-all-listview-items
      */
     fun shotListView(listview: ListView): Bitmap {
@@ -126,6 +128,7 @@ object ViewShot {
 
     /**
      * 对RecyclerView进行截图
+     *
      * https://gist.github.com/PrashamTrivedi/809d2541776c8c141d9a
      */
     fun shotRecyclerView(view: RecyclerView): Bitmap? {

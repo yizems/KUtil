@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 /**
  * fragment item
  * 配合 [SafePagerAdapter] 使用
- * 建议采用 Kotlin 密封类
  *
  * warn: 不要使用匿名内部类!!!不要使用匿名内部类!!!不要使用匿名内部类!!!
  */

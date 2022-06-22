@@ -950,6 +950,85 @@ fun EditText.removeFocusChangeListener(focusChangedListener: View.OnFocusChangeL
 
 ```
 
+
+### InnerListView 可嵌套的ListView
+
+```xml
+<cn.yizems.util.ktx.android.view.listview.InnerListView
+    android:id="@+id/listView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:max_percent_height="0.5" />
+
+```
+`max_percent_height: 用于控制最大高度占屏幕的多少, 一般多用于弹窗, 如果设置为0,则不限制高度
+
+### InnerScrollView 可嵌套的ScrollView 用法和 `InnerListView`一样
+
+### ColorLinearLayoutItemDecoration RecycleView.LinearLayoutManager 但颜色分割线
+
+```kotlin
+/**
+ * RecycleView.LinearLayoutManager 单颜色分割线
+ * 
+ * @param startPaddingPx 开头间距
+ * @param endPaddingPx 结尾间距
+ * @param dividerHeightPx 分割线高度
+ * @param dividerColor 分割线颜色
+ * @param skipPosition 是否跳过某个位置
+ */
+class ColorLinearLayoutItemDecoration(
+    private val startPaddingPx: Float = 0F,
+    private val endPaddingPx: Float = 0F,
+    private val dividerHeightPx: Float = 0.5F.dp2px(),
+    private val dividerColor: Int,
+    private val skipPosition: ((position: Int) -> Boolean)? = null
+) : RecyclerView.ItemDecoration()
+```
+
+### ViewShot 截图相关
+
+**来源于网络,出处已不知**
+
+```kotlin
+object ViewShot {
+    /**
+     * 手动测量摆放View
+     * 对于手动 inflate 或者其他方式代码生成加载的View进行测量，避免该View无尺寸
+     * @param v
+     * @param width
+     * @param height
+     */
+    fun layoutView(v: View, width: Int, height: Int)
+    /**
+     * 获取一个 View 的缓存视图
+     * (前提是这个View已经渲染完成显示在页面上)
+     * @param view
+     * @return
+     */
+    fun getCacheBitmapFromView(view: View): Bitmap?
+    /**
+     * 对ScrollView进行截图
+     * 
+     * @param scrollView
+     * @return
+     */
+    fun shotScrollView(scrollView: ScrollView): Bitmap?
+    /**
+     * 对ListView进行截图
+     * 
+     * http://stackoverflow.com/questions/12742343/android-get-screenshot-of-all-listview-items
+     */
+    fun shotListView(listview: ListView): Bitmap
+    /**
+     * 对RecyclerView进行截图
+     * 
+     * https://gist.github.com/PrashamTrivedi/809d2541776c8c141d9a
+     */
+    fun shotRecyclerView(view: RecyclerView): Bitmap?
+
+```
+
 ### DeviceInfo.kt 设备信息
 
 ```kotlin
@@ -960,3 +1039,255 @@ fun EditText.removeFocusChangeListener(focusChangedListener: View.OnFocusChangeL
 fun getAndroidId(): String 
 ```
 
+
+### ViewPager2 相关
+
+#### 滑动冲突解决: `ViewPager2NestedScrollableHost`
+
+```kotlin
+/**
+ * Layout to wrap a scrollable component inside a ViewPager2. Provided as a solution to the problem
+ * where pages of ViewPager2 have nested scrollable elements that scroll in the same direction as
+ * ViewPager2. The scrollable element needs to be the immediate and only child of this host layout.
+ *
+ * This solution has limitations when using multiple levels of nested scrollable elements
+ * (e.g. a horizontal RecyclerView in a vertical RecyclerView in a horizontal ViewPager2).
+ *
+ * e.g.  https://github.com/android/views-widgets-samples/blob/main/ViewPager2/app/src/main/res/layout/item_nested_recyclerviews.xml
+ *      //没必要在根节点, [parentViewPager] 会一直向上搜索ViewPager2 节点
+ *      <androidx.viewpager2.integration.testapp.NestedScrollableHost
+ *          android:layout_width="match_parent"
+ *          android:layout_height="wrap_content"
+ *          android:layout_marginTop="8dp">
+ *          <androidx.recyclerview.widget.RecyclerView
+ *              android:id="@+id/first_rv"
+ *              android:layout_width="match_parent"
+ *              android:layout_height="wrap_content"
+ *              android:background="#FFFFFF" />
+ *      </androidx.viewpager2.integration.testapp.NestedScrollableHost>
+ *
+ *  官方解决的是 VP2 嵌套 滑动方向一致的 子View 时,子View 无法响应触摸的问题
+ *
+ * 修复 ViewPager2 嵌套WebView/其他 和 VP2 方向不一样时,滑动不灵敏的问题
+ */
+
+class ViewPager2NestedScrollableHost : FrameLayout
+```
+
+#### SafePagerAdapter 和 IFragmentItem
+
+`SafePagerAdapter` 主要是用来解决`Fragment`使用不规范的问题,比如: 直接 new Fragment 然后传给 PagerAdapter
+
+```kotlin
+/**
+ * 更加安全的 adapter 实现, 配合 [IFragmentItem] 使用
+ *
+ * @property items List<IFragmentItem>
+ */
+class SafePagerAdapter : FragmentStateAdapter {
+
+    private val items: List<IFragmentItem>
+
+    constructor(fragmentActivity: FragmentActivity, items: List<IFragmentItem>)
+            : super(fragmentActivity) {
+        this.items = items
+    }
+
+    constructor(fragment: Fragment, items: List<IFragmentItem>) : super(fragment) {
+        this.items = items
+    }
+
+    constructor(
+        fragmentManager: FragmentManager,
+        lifecycle: Lifecycle,
+        items: List<IFragmentItem>
+    ) : super(fragmentManager, lifecycle) {
+        this.items = items
+    }
+}
+```
+
+`IFragmentItem` 核心逻辑是定义了 创建 fragment 的代码. 并含有子类用于实现 图标或者标题的设置
+
+```kotlin
+/**
+ * fragment item
+ * 配合 [SafePagerAdapter] 使用
+ *
+ * warn: 不要使用匿名内部类!!!不要使用匿名内部类!!!不要使用匿名内部类!!!
+ */
+interface IFragmentItem {
+    fun create(position: Int): Fragment
+}
+
+interface IconFragmentItem : IFragmentItem {
+    val selIcon: Int
+    val defaultIcon: Int
+}
+
+/** 标题 , title 为 字符串 id */
+interface TitleResFragmentItem : IFragmentItem {
+    val title: Int
+}
+
+interface TitleFragmentItem : IFragmentItem {
+    val title: String
+}
+
+```
+
+### ViewEx 扩展
+
+```kotlin
+/**
+ * 是对于 ktx 的补充, ktx 中有的方法,这里没有实现
+ */
+
+/**
+ * [doOnPreDraw] 的扩展,action 返回值决定是否取消绘制
+ * @receiver View
+ * @param action Function1<[@kotlin.ParameterName] View, Boolean> 返回true,代表继续绘制
+ */
+inline fun View.doOnPreDrawEx(crossinline action: (view: View) -> Boolean)
+
+/**
+ * 获取焦点
+ * 会设置 [View.isFocusableInTouchMode] [View.isEnabled] 为 true
+ */
+fun View.requestFocusEx()
+
+/**
+ * 设置 View 的 margin
+ */
+inline fun View.updateMargins(
+    @Px left: Int? = null,
+    @Px top: Int? = null,
+    @Px right: Int? = null,
+    @Px bottom: Int? = null
+)
+```
+
+### 协程支持: `CoroutineSupport`
+
+**强烈建议阅读源码后再使用, 下面是示例**
+
+```kotlin
+package cn.yizems.util.ktx.android.coroutine.demo
+
+import android.app.Dialog
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
+import cn.yizems.util.ktx.android.coroutine.CoroutineSupport
+import cn.yizems.util.ktx.android.coroutine.ILoadingSupport
+import cn.yizems.util.ktx.android.coroutine.ToastException
+import cn.yizems.util.ktx.android.coroutine.ToastProvider
+import kotlinx.coroutines.*
+
+private class BaseActivity
+    : AppCompatActivity(), CoroutineSupport, ILoadingSupport {
+    /**
+     * 默认主线程, 子类需要实现
+     */
+    override val coroutineScope: CoroutineScope
+        get() = lifecycle.coroutineScope
+
+    /**
+     * @param msg String? loading 上提示的文字, 例如:提交中
+     */
+    override fun showLoading(msg: String?) {
+        // 显示弹窗
+    }
+
+    override fun dismissLoading() {
+        // 关闭弹窗
+    }
+
+
+    private fun biz() {
+        // 具体业务逻辑
+        launch {
+            delay(5_000)
+            ToastProvider.showShort("业务完成")
+        }
+        launch(showHint = true) {
+
+            onError {
+                if (it is IllegalArgumentException) {
+                    // 返回 true, 这种异常会被拦截, 需要你自己处理这里的逻辑, 不会 toast 提示
+                    return@onError true
+                }
+                // 返回 false, 代表不拦截
+                return@onError false
+            }
+
+            delay(5_000)
+
+            // 这种类型的异常,以及子类, 会被外部捕获, 并自动toast出来
+            // 和 [showHint] 参数有关, 如果设置为false, 则不会 toast 提示
+            throw ToastException("业务异常")
+        }
+    }
+
+}
+
+private class BasePresenter(private val mView: Any?) : CoroutineSupport, ILoadingSupport {
+
+    /**
+     * 默认主线程, 子类需要实现
+     */
+    override val coroutineScope: CoroutineScope
+        get() = CoroutineScope((SupervisorJob() + Dispatchers.Main))
+
+    /**
+     * @param msg String? loading 上提示的文字, 例如:提交中
+     */
+    override fun showLoading(msg: String?) {
+//        mView?.showLoading(msg)
+    }
+
+    override fun dismissLoading() {
+//        mView?.dismissLoading()
+    }
+
+    fun detach() {
+        coroutineScope.cancel()
+    }
+}
+
+private class BaseDialog(context: Context, private val lifecycle: Lifecycle) : Dialog(context),
+    CoroutineSupport, ILoadingSupport {
+
+
+    /**
+     * 默认主线程, 子类需要实现
+     */
+    override val coroutineScope: CoroutineScope
+        get() = lifecycle.coroutineScope
+
+
+    /**
+     * @param msg String? loading 上提示的文字, 例如:提交中
+     */
+    override fun showLoading(msg: String?) {
+        // 显示dialog中的loading视图
+    }
+
+    override fun dismissLoading() {
+        // 隐藏dialog中的loading视图
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+    }
+}
+
+```
+
+
+## okhttp 扩展库 - Java项目
+
+```kotlin
+
+```

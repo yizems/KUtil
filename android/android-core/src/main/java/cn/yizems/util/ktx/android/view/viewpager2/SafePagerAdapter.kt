@@ -7,8 +7,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 /**
- * FIXME 补充WIKI
  * 更加安全的 adapter 实现, 配合 [IFragmentItem] 使用
+ *
  * @property items List<IFragmentItem>
  */
 class SafePagerAdapter : FragmentStateAdapter {
@@ -41,4 +41,5 @@ class SafePagerAdapter : FragmentStateAdapter {
     override fun createFragment(position: Int): Fragment {
         return items[position].create(position)
     }
+
 }
