@@ -4,22 +4,22 @@
 
 ```kotlin
 
-val a = listOf("a","b")
+val a = listOf("a", "b")
 
 val b = listOf(1)
 
 // 返回不包含的元素,支持不同数据类型
-b.noContainElementBy(a){
-    1.toString()==b
+b.noContainElementBy(a) {
+    1.toString() == b
 }
 
 // 获取被包含的元素
-b.containElementBy(a){
-    1.toString()==b
+b.containElementBy(a) {
+    1.toString() == b
 }
 
 // 判空
-val c:List<String>? = null
+val c: List<String>? = null
 
 val empty = c.isNullOrEmpty()
 
@@ -63,6 +63,7 @@ fun Calendar.setFieldEx(
     second: Int? = null,
     millions: Int? = null,
 )
+
 // 设置某个时间的开始或结束: 例如 今天的开始时间, 0时0分0秒0毫秒
 fun Calendar.toFieldStartOrEnd(
     cField: CalendarField = CalendarField.YEAR,
@@ -79,6 +80,7 @@ enum class CalendarField(val field: Int) {
     MILLISECOND(Calendar.MILLISECOND),
     ;
 }
+
 // 格式化方法
 fun Calendar.format(format: String = "yyyy-MM-dd HH:mm:ss.SSS")
 
@@ -171,7 +173,7 @@ fun InputStream.writeToFile(path: String)
 /**
  * 写入文件,并关闭流
  * 注意, 如果文件存在,会自动删除
- * 
+ *
  * @param file 文件
  */
 fun InputStream.writeTo(file: File)
@@ -191,7 +193,7 @@ fun <T> KProperty0<T>.isInitialized()
 ```kotlin
 /**
  * max() for BigDecimal
- * 
+ *
  * @return 两个都为null, 返回 [BigDecimal.ZERO] , 否则返回大的那个
  */
 fun maxNumber(v1: BigDecimal?, v2: BigDecimal?)
@@ -242,7 +244,7 @@ fun uuid()
  * @param envp 环境变量
  * @param dir 工作目录
  */
-fun Array<String>.execute(envp: Array<String>? = null, dir: File? = null):Process
+fun Array<String>.execute(envp: Array<String>? = null, dir: File? = null): Process
 
 /**
  * 执行命令
@@ -250,7 +252,7 @@ fun Array<String>.execute(envp: Array<String>? = null, dir: File? = null):Proces
  * @param envp 环境变量
  * @param dir 工作目录
  */
-fun String.execute(envp: Array<String>? = null, dir: File? = null):Process
+fun String.execute(envp: Array<String>? = null, dir: File? = null): Process
 
 /**
  * 扩展Process扩展 text() 函数
@@ -275,35 +277,40 @@ fun Any?.runOnNull(block: () -> Unit)
 ```
 
 ### BooleanEx.kt 布尔值扩展
+
 ```kotlin
 
 /**
  * true 时 执行 block
- * 
+ *
  * @return self
  */
 inline fun Boolean?.onTrue(block: () -> Unit): Boolean?
+
 /**
  * false 时 执行 block
- * 
+ *
  * @return self
  */
 inline fun Boolean?.onFalse(block: () -> Unit): Boolean?
+
 /**
  * null 时 执行 block
- * 
+ *
  * @return self
  */
 inline fun Boolean?.onNull(block: () -> Unit): Boolean?
+
 /**
  * 非 true 时执行block
- * 
+ *
  * @return self
  */
 inline fun Boolean?.onNotTure(block: (Boolean?) -> Unit): Boolean?
+
 /**
  * 非 false 时执行block
- * 
+ *
  * @return self
  */
 inline fun Boolean?.onNotFalse(block: (Boolean?) -> Unit): Boolean?
@@ -313,6 +320,7 @@ inline fun Boolean?.onNotFalse(block: (Boolean?) -> Unit): Boolean?
  * null 当做 true
  */
 inline fun Boolean?.nullAsTrue(): Boolean
+
 /**
  * null 当做 false
  */
@@ -715,11 +723,12 @@ object ProcessUtil {
 }
 ```
 
-###  QQUtil 应用QQ工具类
+### QQUtil 应用QQ工具类
 
 ```kotlin
 /** 跳转到 QQ聊天 */
 fun toChat(context: Context, no: String): Boolean
+
 /**
  * 在跳转到QQ群页面前，需要先获取要跳转到QQ群的Key，
  * 获取Key的网址：https://qun.qq.com/join.html
@@ -728,7 +737,8 @@ fun toChat(context: Context, no: String): Boolean
 fun toGroup(context: Context, key: String): Boolean 
 ```
 
-###  ScreenUtil.kt 屏幕工具类
+### ScreenUtil.kt 屏幕工具类
+
 ```kotlin
 /**
  * 获取屏幕宽高:已减去装饰,
@@ -763,7 +773,7 @@ fun getScreenRectSize(): Rect
  * 状态栏如果不存在,可能会得到0
  * @return
  */
-fun getStatusBarHeight(): Int 
+fun getStatusBarHeight(): Int
 
 ```
 
@@ -774,10 +784,12 @@ fun getStatusBarHeight(): Int
  * 分享文本
  */
 @JvmStatic
-fun shareText(context: Context, text: String, title: String = DEFAULT_SHARE_TITLE) 
+fun shareText(context: Context, text: String, title: String = DEFAULT_SHARE_TITLE)
+
 /** 分享一张图片 */
 @JvmStatic
-fun shareImage(context: Context, file: File, title: String = DEFAULT_SHARE_TITLE) 
+fun shareImage(context: Context, file: File, title: String = DEFAULT_SHARE_TITLE)
+
 /**
  * 分享多张图片
  */
@@ -787,13 +799,15 @@ fun shareMulImage(
     files: ArrayList<File>,
     title: String = DEFAULT_SHARE_TITLE
 )
+
 /** 分享一个文件 */
 @JvmStatic
 fun shareFile(
     context: Context, file: File,
     mime: String = "*/*",
     title: String = DEFAULT_SHARE_TITLE
-) 
+)
+
 /** 分享多个文件 */
 @JvmStatic
 fun shareMulFile(
@@ -813,7 +827,6 @@ fun shareMulFile(
  * 获取File的Uri,兼容Android 7 的fileProvider
  */
 inline fun File.getUri(context: Context): Uri
-
 
 
 /**
@@ -845,7 +858,6 @@ fun Context.getFileInfo(uri: Uri): FileInfo
 ```
 
 ### DecimalInputFilter 小数输入框处理器
-
 
 ```kotlin
 /**
@@ -950,17 +962,16 @@ fun EditText.removeFocusChangeListener(focusChangedListener: View.OnFocusChangeL
 
 ```
 
-
 ### InnerListView 可嵌套的ListView
 
 ```xml
-<cn.yizems.util.ktx.android.view.listview.InnerListView
-    android:id="@+id/listView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+
+<cn.yizems.util.ktx.android.view.listview.InnerListView android:id="@+id/listView"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
     app:max_percent_height="0.5" />
 
 ```
+
 `max_percent_height: 用于控制最大高度占屏幕的多少, 一般多用于弹窗, 如果设置为0,则不限制高度
 
 ### InnerScrollView 可嵌套的ScrollView 用法和 `InnerListView`一样
@@ -970,7 +981,7 @@ fun EditText.removeFocusChangeListener(focusChangedListener: View.OnFocusChangeL
 ```kotlin
 /**
  * RecycleView.LinearLayoutManager 单颜色分割线
- * 
+ *
  * @param startPaddingPx 开头间距
  * @param endPaddingPx 结尾间距
  * @param dividerHeightPx 分割线高度
@@ -1000,6 +1011,7 @@ object ViewShot {
      * @param height
      */
     fun layoutView(v: View, width: Int, height: Int)
+
     /**
      * 获取一个 View 的缓存视图
      * (前提是这个View已经渲染完成显示在页面上)
@@ -1007,22 +1019,25 @@ object ViewShot {
      * @return
      */
     fun getCacheBitmapFromView(view: View): Bitmap?
+
     /**
      * 对ScrollView进行截图
-     * 
+     *
      * @param scrollView
      * @return
      */
     fun shotScrollView(scrollView: ScrollView): Bitmap?
+
     /**
      * 对ListView进行截图
-     * 
+     *
      * http://stackoverflow.com/questions/12742343/android-get-screenshot-of-all-listview-items
      */
     fun shotListView(listview: ListView): Bitmap
+
     /**
      * 对RecyclerView进行截图
-     * 
+     *
      * https://gist.github.com/PrashamTrivedi/809d2541776c8c141d9a
      */
     fun shotRecyclerView(view: RecyclerView): Bitmap?
@@ -1038,7 +1053,6 @@ object ViewShot {
  */
 fun getAndroidId(): String 
 ```
-
 
 ### ViewPager2 相关
 
@@ -1392,21 +1406,21 @@ fun Response.contentLengthCompat(): Long
  * ex:
  * ```kotlin
  * context.contentResolver.openFileDescriptor(uri, "r")?.toRequestBody()
- * ```
-
-* @receiver ParcelFileDescriptor
-* @return RequestBody
-* @throws IOException
-  */ fun ParcelFileDescriptor.toRequestBody(): RequestBody
+ *
+ * @receiver ParcelFileDescriptor
+ * @return RequestBody
+ * @throws IOException
+ */
+fun ParcelFileDescriptor.toRequestBody(): RequestBody
 
 /**
-
-* 将 ParcelFileDescriptor 转换为 MultipartBody.Part
-* 适用于外部选择文件
-* @receiver ParcelFileDescriptor
-* @param key String
-* @return MultipartBody.Part
-  */ fun ParcelFileDescriptor.toMultiPart(key: String = "file"): MultipartBody.Part
+ * 将 ParcelFileDescriptor 转换为 MultipartBody.Part
+ * 适用于外部选择文件
+ * @receiver ParcelFileDescriptor
+ * @param key String
+ * @return MultipartBody.Part
+ */
+fun ParcelFileDescriptor.toMultiPart(key: String = "file"): MultipartBody.Part
 
 ```
 
