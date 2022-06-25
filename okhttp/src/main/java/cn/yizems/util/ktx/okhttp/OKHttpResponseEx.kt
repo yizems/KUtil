@@ -22,14 +22,18 @@ fun Response.transferEncoding(): String? {
     return this.header("Transfer-Encoding")
 }
 
+/** 是否为 gizp 压缩 */
 fun Response.isGzip(): Boolean {
     return this.transferEncoding() == "gzip"
 }
 
+fun Response.isJson(): Boolean {
+    return mediaType()?.subtype == "json"
+}
+
+
 /**
- * 获取文本内容
- * @receiver Response
- * @return Boolean
+ * 获取文本内容, 已对gzip进行解压缩
  */
 fun Response.readBodyString(): String? {
     return if (isGzip()) {
@@ -39,7 +43,6 @@ fun Response.readBodyString(): String? {
     }
 }
 
-
 fun Response.readBodyStringGzip(): String? {
     val cloneBodyBuffer = cloneBodyBuffer() ?: return null
     val gzipSource = GzipSource(cloneBodyBuffer)
@@ -48,20 +51,19 @@ fun Response.readBodyStringGzip(): String? {
     }
 }
 
+
 fun Response.readBodyStringNormal(): String? {
     return cloneBodyBuffer()?.readUtf8()
 }
 
-
+/**
+ * clone body buffer, 用于额外读取
+ */
 fun Response.cloneBodyBuffer(): Buffer? {
     val source: BufferedSource = this.body?.source() ?: return null
     // Buffer the entire body.
     source.request(Long.MAX_VALUE)
     return source.buffer.clone()
-}
-
-fun Response.isJson(): Boolean {
-    return mediaType()?.subtype == "json"
 }
 
 /**

@@ -1285,9 +1285,128 @@ private class BaseDialog(context: Context, private val lifecycle: Lifecycle) : D
 
 ```
 
-
 ## okhttp 扩展库 - Java项目
+
+### OkHttpEx
+
+```kotlin
+/** Json请求header, 包含charset */
+const val MEDIA_TYPE_JSON_STR_WITH_CHARSET = "application/json;charset=utf-8"
+
+/** Json请求Header*/
+const val MEDIA_TYPE_JSON_STR = "application/json"
+
+/** Json请求 MediaType */
+val MEDIA_TYPE_JSON by lazy { MEDIA_TYPE_JSON_STR_WITH_CHARSET.toMediaType() }
+
+/** form 请求 mediaType */
+val MEDIA_TYPE_FORM_DATA by lazy { "multipart/form-data".toMediaType() }
+
+/** String 转为 json 请求体 */
+fun String?.toJsonRequestBody() = (this ?: "{}").toRequestBody(MEDIA_TYPE_JSON)
+
+/** 文件请求体 */
+fun File.toRequestBody() = this.asRequestBody(MEDIA_TYPE_FORM_DATA)
+
+/** 文件转为 MultipartBody.Part */
+fun File.toMultiPart(key: String = "file", fileName: String? = null): MultipartBody.Part
+
+/**
+ * 信任所有域名
+ * @receiver OkHttpClient.Builder
+ * @return OkHttpClient.Builder
+ */
+fun OkHttpClient.Builder.trustAllCerts(): OkHttpClient.Builder
+```
+
+### OKHttpRequestEx.kt
 
 ```kotlin
 
+/** 获取 contentType */
+fun Request.contentType(): String?
+
+/** 获取 Accept-Encoding */
+fun Request.acceptEncoding(): String?
+
+/** 获取Query参数 */
+fun Request.getQuery(): Map<String, String?>
+
+/**
+ * 获取文本内容
+ * @return [body] 为空时返回 null
+ */
+fun Request.readBodyString(): String?
+
+/** 获取文本内容 */
+fun RequestBody.readBodyToString(): String
+
+/**
+ * 获取 Multipart 请求体
+ * 文本参数直接获取, 文件类型的只能获取到文件名
+ *
+ * @return Map<String?, String?>
+ *     key:value
+ *     key:fileName
+ */
+fun MultipartBody.toInfoMap(): Map<String?, String?> 
 ```
+
+### OKHttpResponseEx.kt
+
+```kotlin
+
+fun Response.contentType(): String?
+fun Response.mediaType(): MediaType?
+fun Response.transferEncoding(): String?
+fun Response.isGzip(): Boolean
+fun Response.isJson(): Boolean
+
+/**
+ * 获取文本内容, 已对gzip进行解压缩
+ */
+fun Response.readBodyString(): String?
+
+/**
+ * clone body buffer, 用于额外读取
+ */
+fun Response.cloneBodyBuffer(): Buffer?
+
+/**
+ * 按照顺序依次往下取, 直到取到为止,取不到为-1
+ * 1. header
+ * 2. body.length
+ * 3. body.source.buffer.size: 不一定准确: 特别是在 stream的时候
+ */
+fun Response.contentLengthCompat(): Long
+
+```
+
+## android-okhttp 安卓Okhttp扩展库
+
+```kotlin
+/**
+ * 将 ParcelFileDescriptor 文件转换为 RequestBody
+ * 适用于外部选择文件
+ *
+ * ex:
+ * ```kotlin
+ * context.contentResolver.openFileDescriptor(uri, "r")?.toRequestBody()
+ * ```
+
+* @receiver ParcelFileDescriptor
+* @return RequestBody
+* @throws IOException
+  */ fun ParcelFileDescriptor.toRequestBody(): RequestBody
+
+/**
+
+* 将 ParcelFileDescriptor 转换为 MultipartBody.Part
+* 适用于外部选择文件
+* @receiver ParcelFileDescriptor
+* @param key String
+* @return MultipartBody.Part
+  */ fun ParcelFileDescriptor.toMultiPart(key: String = "file"): MultipartBody.Part
+
+```
+

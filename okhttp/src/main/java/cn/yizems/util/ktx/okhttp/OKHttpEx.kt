@@ -14,12 +14,16 @@ import javax.net.ssl.X509TrustManager
 
 //region media type
 
-const val MEDIA_TYPE_JSON_STR = "application/json;charset=utf-8"
+/** Json请求header, 包含charset */
+const val MEDIA_TYPE_JSON_STR_WITH_CHARSET = "application/json;charset=utf-8"
 
-val MEDIA_TYPE_JSON by lazy { MEDIA_TYPE_JSON_STR.toMediaType() }
+/** Json请求Header*/
+const val MEDIA_TYPE_JSON_STR = "application/json"
 
-const val HEADER_MEDIA_JSON_STR = "Content-Type:$MEDIA_TYPE_JSON_STR"
+/** Json请求 MediaType */
+val MEDIA_TYPE_JSON by lazy { MEDIA_TYPE_JSON_STR_WITH_CHARSET.toMediaType() }
 
+/** form 请求 mediaType */
 val MEDIA_TYPE_FORM_DATA by lazy { "multipart/form-data".toMediaType() }
 
 //endregion
@@ -27,11 +31,13 @@ val MEDIA_TYPE_FORM_DATA by lazy { "multipart/form-data".toMediaType() }
 
 //region Body创建
 
-
+/** String 转为 json 请求体 */
 fun String?.toJsonRequestBody() = (this ?: "{}").toRequestBody(MEDIA_TYPE_JSON)
 
+/** 文件请求体 */
 fun File.toRequestBody() = this.asRequestBody(MEDIA_TYPE_FORM_DATA)
 
+/** 文件转为 MultipartBody.Part */
 fun File.toMultiPart(key: String = "file", fileName: String? = null): MultipartBody.Part {
     val rFileName = fileName ?: this.generateUuidName()
     return MultipartBody.Part.createFormData(key, rFileName, this.toRequestBody())

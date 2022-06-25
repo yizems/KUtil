@@ -5,15 +5,17 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okio.Buffer
 
-
+/** 获取 contentType */
 fun Request.contentType(): String? {
     return this.header("Content-Type") ?: body?.contentType()?.toString()
 }
 
+/** 获取 Accept-Encoding */
 fun Request.acceptEncoding(): String? {
     return this.header("Accept-Encoding")
 }
 
+/** 获取Query参数 */
 fun Request.getQuery(): Map<String, String?> {
     return url.queryParameterNames.associateWith { url.queryParameter(it) }
 }
@@ -21,8 +23,7 @@ fun Request.getQuery(): Map<String, String?> {
 
 /**
  * 获取文本内容
- * @receiver Response
- * @return Boolean
+ * @return [body] 为空时返回 null
  */
 fun Request.readBodyString(): String? {
     val body = body ?: return null
@@ -31,6 +32,7 @@ fun Request.readBodyString(): String? {
     return buffer.readString(Charsets.UTF_8)
 }
 
+/** 获取文本内容 */
 fun RequestBody.readBodyToString(): String {
     val buffer = Buffer()
     this.writeTo(buffer)
@@ -38,8 +40,9 @@ fun RequestBody.readBodyToString(): String {
 }
 
 /**
- * get parts info
- * @receiver MultipartBody
+ * 获取 Multipart 请求体
+ * 文本参数直接获取, 文件类型的只能获取到文件名
+ *
  * @return Map<String?, String?>
  *     key:value
  *     key:fileName

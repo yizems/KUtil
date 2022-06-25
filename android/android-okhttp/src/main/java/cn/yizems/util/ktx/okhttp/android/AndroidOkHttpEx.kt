@@ -16,6 +16,11 @@ import java.io.IOException
 /**
  * 将 ParcelFileDescriptor 文件转换为 RequestBody
  * 适用于外部选择文件
+ *
+ * ex:
+ * ```kotlin
+ * context.contentResolver.openFileDescriptor(uri, "r")?.toRequestBody()
+ * ```
  * @receiver ParcelFileDescriptor
  * @return RequestBody
  * @throws IOException
