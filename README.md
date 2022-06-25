@@ -6,7 +6,7 @@
 
 kotlin 便捷方法合集
 
-[WIKI](./WIKI_ALL.md)
+[WIKI](https://github.com/yizems/KUtil/wiki)
 
 ### 目录
 
