@@ -3,11 +3,12 @@
 [![](https://jitpack.io/v/yizems/KUtil.svg)](https://jitpack.io/#yizems/KUtil)
 
 
-**有需要增加的功能提Issues**
+**有需要的方法提Issues**
+
 
 ### 项目描述
 
-kotlin 便捷方法合集
+kotlin 便捷方法合集: 所有方法均已在wiki中说明, 直接 `ctrl + F` 搜索即可
 
 [WIKI](https://github.com/yizems/KUtil/wiki)
 
