@@ -39,12 +39,12 @@ interface CoroutineSupport {
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit,
-    ) {
+    ): Job {
         var context = context
 
         context += DefaultCoroutineExceptionHandler(defaultErrorToast, showHint, null)
 
-        coroutineScope.launch(context, start) {
+        return coroutineScope.launch(context, start) {
 
             val imp = this@CoroutineSupport
 
