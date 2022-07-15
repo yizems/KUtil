@@ -369,7 +369,7 @@ inline fun <T, reified R> ResultWrapper<T>.onFailureWith(block: (Throwable) -> B
 
 ```
 
-### StringEx.kt
+### StringEx.kt 字符串扩展方法
 
 ```kotlin
 /**
@@ -429,6 +429,27 @@ fun String?.toIntOrElse(default: Int = 0, exception: Boolean = false): Int
  * @param blank String 0 的话是否返回 ""
  */
 fun String?.getZeroAsEmpty(blank: Boolean = true): String?
+
+/**
+ * 转换字符串,
+ * @param default 为null 时返回
+ * @param notNull 非null如何处理
+ */
+fun String?.transformNull(default: String, notNull: (String) -> String): String
+
+/**
+ * 转换字符串,
+ * @param default 为 empty 时返回
+ * @param notEmpty 非 empty 如何处理
+ */
+fun String?.transformEmpty(default: String, notEmpty: (String) -> String): String
+
+/**
+ * 转换字符串
+ * @param default 为 blank 时返回
+ * @param notBlank 非 blank 如何处理
+ */
+fun String?.transformBlank(default: String, notBlank: (String) -> String): String
 
 ```
 
