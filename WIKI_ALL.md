@@ -435,21 +435,21 @@ fun String?.getZeroAsEmpty(blank: Boolean = true): String?
  * @param default 为null 时返回
  * @param notNull 非null如何处理
  */
-fun String?.transformNull(default: String, notNull: (String) -> String): String
+fun String?.transformNotNull(default: String, notNull: (String) -> String): String
 
 /**
  * 转换字符串,
  * @param default 为 empty 时返回
  * @param notEmpty 非 empty 如何处理
  */
-fun String?.transformEmpty(default: String, notEmpty: (String) -> String): String
+fun String?.transformNotEmpty(default: String, notEmpty: (String) -> String): String
 
 /**
  * 转换字符串
  * @param default 为 blank 时返回
  * @param notBlank 非 blank 如何处理
  */
-fun String?.transformBlank(default: String, notBlank: (String) -> String): String
+fun String?.transformNotBlank(default: String, notBlank: (String) -> String): String
 
 ```
 
