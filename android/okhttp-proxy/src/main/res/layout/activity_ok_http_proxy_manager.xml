@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="#ffffff"
     android:showDividers="middle"
     android:divider="#CCCCCC"
     >
@@ -59,7 +59,7 @@
 
         <Button
             android:id="@+id/bt_clear"
-            android:background="@color/purple_200"
+            android:background="#95a5a6"
             android:layout_weight="1"
             android:text="清空"
             android:gravity="center"
@@ -70,7 +70,7 @@
 
         <Button
             android:id="@+id/bt_set"
-            android:background="@color/teal_200"
+            android:background="#ff6348"
             android:layout_weight="1"
             android:text="设置代理"
             android:gravity="center"
