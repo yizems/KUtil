@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:showDividers="middle"
+    android:divider="#CCCCCC"
+    >
+
+    <TextView
+        android:paddingTop="25dp"
+        android:height="60dp"
+        android:gravity="center"
+        android:text="代理设置"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <EditText
+        android:id="@+id/et_ip"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:hint="输入代理IP"
+        android:layout_marginRight="20dp"
+        />
+
+    <EditText
+        android:id="@+id/et_port"
+        android:hint="输入代理端口"
+        android:inputType="number"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+
+    <CheckBox
+        android:id="@+id/checkbox_webview"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="是否代理WebView"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/bt_clear"
+            android:background="@color/purple_200"
+            android:layout_weight="1"
+            android:text="清空"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            />
+
+        <Button
+            android:id="@+id/bt_set"
+            android:background="@color/teal_200"
+            android:layout_weight="1"
+            android:text="设置代理"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -9,3 +9,4 @@ include ':android:android-context'
 //project(":android-context").projectDir = new File("./android/android-context")
 include ':android:android-okhttp'
 include ':android:android-permission'
+include ':android:okhttp-proxy'
