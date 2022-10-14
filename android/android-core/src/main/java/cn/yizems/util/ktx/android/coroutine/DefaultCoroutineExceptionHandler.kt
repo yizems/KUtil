@@ -1,5 +1,6 @@
 package cn.yizems.util.ktx.android.coroutine
 
+import android.util.Log
 import androidx.annotation.StringRes
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.cancel
@@ -19,6 +20,13 @@ class DefaultCoroutineExceptionHandler(
 ) : AbstractCoroutineContextElement(CoroutineExceptionHandler), CoroutineExceptionHandler {
 
     override fun handleException(context: CoroutineContext, exception: Throwable) {
+        CoroutineSupportManager.getLogPrinter()
+            .printLog(
+                Log.ERROR,
+                "DefaultCoroutineExceptionHandler",
+                exception.message ?: "",
+                exception
+            )
         context.cancel()
 
         val intercept = coroutineErrorCallback?.callback?.invoke(exception)

@@ -2,28 +2,27 @@ package cn.yizems.util.ktx.android.coroutine
 
 import androidx.annotation.StringRes
 
+@Deprecated("use CoroutineSupportManager instead")
 object ToastProvider : IToastProvider {
 
-    private var toastProvider: IToastProvider? = null
-
     fun register(toastProvider: IToastProvider) {
-        ToastProvider.toastProvider = toastProvider
+        CoroutineSupportManager.register(toastProvider)
     }
 
     override fun showShort(text: String) {
-        toastProvider?.showShort(text)
+        CoroutineSupportManager.getToastProvider()?.showShort(text)
     }
 
     override fun showShort(resId: Int) {
-        toastProvider?.showShort(resId)
+        CoroutineSupportManager.getToastProvider()?.showShort(resId)
     }
 
     override fun showLong(text: String) {
-        toastProvider?.showLong(text)
+        CoroutineSupportManager.getToastProvider()?.showLong(text)
     }
 
     override fun showLong(resId: Int) {
-        toastProvider?.showLong(resId)
+        CoroutineSupportManager.getToastProvider()?.showLong(resId)
     }
 }
 
