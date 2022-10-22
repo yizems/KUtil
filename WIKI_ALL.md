@@ -603,6 +603,12 @@ fun Context.getPackageInfo(flag: Int = 0, packageName: String = this.packageName
 
 ```
 
+### ResourceEx.kt
+
+```kotlin
+fun getColorCompat(@ColorRes colorId: Int): Int
+```
+
 ### DemensEx.kt 尺寸快捷方法
 
 ```kotlin
