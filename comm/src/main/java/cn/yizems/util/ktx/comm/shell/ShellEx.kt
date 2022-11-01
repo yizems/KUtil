@@ -47,6 +47,7 @@ fun Process.printOut(): String {
         val o = reader.readLine() ?: break
         println(o)
         out += o
+        out += "\n"
     }
     return out
 }
