@@ -8,6 +8,6 @@
             android:authorities="${applicationId}.lb.util.context_holder"
             android:enabled="true"
             android:exported="false"
-            android:multiprocess="false" />
+            android:multiprocess="true" />
     </application>
 </manifest>
