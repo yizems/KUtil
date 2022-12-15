@@ -68,14 +68,21 @@ object ProcessUtil {
         return getCurrentProcessName(context) == context.packageName
     }
 
-}
+    /** 退出本APP所有进程 */
+    @JvmStatic
+    fun killAllProcess(context: Context) {
+        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+            ?: return
+        val appProcessList = am
+            .runningAppProcesses ?: return
 
-///** 是否主进程 */
-//fun Context.isMainProcess(): Boolean {
-//    return ProcessUtil.isMainProcess(this)
-//}
-//
-///** 获取当前进程名字 */
-//fun Context.getCurrentProcessName(): String? {
-//    return ProcessUtil.getCurrentProcessName(this)
-//}
+        // NOTE: getRunningAppProcess() ONLY GIVE YOU THE PROCESS OF YOUR OWN PACKAGE IN ANDROID M
+        // BUT THAT'S ENOUGH HERE
+        for (ai in appProcessList) {
+            // KILL OTHER PROCESS OF MINE
+            if (ai.uid == Process.myUid()) {
+                Process.killProcess(ai.pid)
+            }
+        }
+    }
+}
