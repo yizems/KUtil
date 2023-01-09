@@ -57,7 +57,9 @@ fun Response.readBodyStringGzip(): String? {
 
 
 fun Response.readBodyStringNormal(): String? {
-    return cloneBodyBuffer()?.readUtf8()
+    return cloneBodyBuffer()?.use {
+        it.readUtf8()
+    }
 }
 
 /**
