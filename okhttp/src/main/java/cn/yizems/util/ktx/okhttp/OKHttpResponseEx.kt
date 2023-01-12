@@ -22,9 +22,13 @@ fun Response.transferEncoding(): String? {
     return this.header("Transfer-Encoding")
 }
 
+fun Response.contentEncoding(): String? {
+    return this.header("Content-Encoding")
+}
+
 /** 是否为 gizp 压缩 */
 fun Response.isGzip(): Boolean {
-    return this.transferEncoding() == "gzip"
+    return this.contentEncoding()?.equals("gzip", true) ?: false 
 }
 
 fun Response.isJson(): Boolean {
@@ -53,7 +57,9 @@ fun Response.readBodyStringGzip(): String? {
 
 
 fun Response.readBodyStringNormal(): String? {
-    return cloneBodyBuffer()?.readUtf8()
+    return cloneBodyBuffer()?.use {
+        it.readUtf8()
+    }
 }
 
 /**

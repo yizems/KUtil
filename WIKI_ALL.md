@@ -482,6 +482,45 @@ object IDCardValidator {
 VinValidator.validatorVin(vin: String): Boolean
 ```
 
+### 流/IO/ByteArray 辅助类
+
+```kotlin
+/**
+ * 写入文件,并关闭流
+ * 注意, 如果文件存在,会自动删除
+ * 如果不存在的话:会自动创建父级目录
+ * @param file 文件
+ */
+fun InputStream.writeTo(file: File)
+
+/**
+ * 判断流第一个字节是否utf8
+ *
+ *  65533 = Utf8.kt: REPLACEMENT_CODE_POINT
+ */
+fun Buffer.startUtf8(): Boolean
+
+/**
+ * 第一个字节是否utf8
+ *
+ *  65533 = Utf8.kt: REPLACEMENT_CODE_POINT
+ */
+fun ByteArray.startUtf8(): Boolean
+
+/**
+ * 利用前 64 个字节判断是否为utf8编码
+ * @return true utf8
+ */
+fun Buffer.isUtf8(): Boolean
+
+/**
+ * 利用前 64 个字节判断是否为utf8编码
+ * @return true utf8
+ */
+fun ByteArray.isUtf8(): Boolean
+
+```
+
 ## android-context 安卓Context 工具类
 
 ### ContextHolder.kt 引入即可全局获取 Context
