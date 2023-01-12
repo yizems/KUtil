@@ -1462,6 +1462,30 @@ fun Response.contentLengthCompat(): Long
 
 ```
 
+### ResponseProxy 响应体监听
+
+```kotlin
+/**
+ * 接口响应体代理类, 用于构建流代理的形式获取响应体
+ * warn: 如果你的响应体很大的话, 不要直接读取到内存, 最好是写入到文件中, 再从文件中分批获取数据
+ *      这种情况下,建议参照着写一个新的类实现
+ */
+ResponseProxy.proxy(
+    response,
+    object : ResponseProxyListener{
+        /** 请求结束 */
+        fun onEOF(outputStream: ByteArrayOutputStream)
+        /** 出现异常 */
+        fun onError(ex: IOException)
+        /** 跳过,msg 是原因,目前只有不成功的时候才跳过 */
+        fun onOmit(msg: String)
+    }
+)
+
+// 流代理类为: InputStreamProxy , 参照了facebook的实现
+
+```
+
 ## android-okhttp 安卓Okhttp扩展库
 
 ```kotlin
