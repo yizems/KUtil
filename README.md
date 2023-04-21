@@ -28,6 +28,17 @@ kotlin 便捷方法合集: 所有方法均已在wiki中说明, 直接 `ctrl + F`
 [![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://jb.gg/OpenSourceSupport)
 
 
+### 可能冲突的库
+
+#### StringEscapeUtil
+
+如果引入了 `Apache Common Lang` 或者 `Apache Common Text`
+
+引入时排除
+```
+exclude(group = "com.github.yizems", module = "StringEscapeUtil")
+```
+
 ### LICENSE
 
 MIT License
