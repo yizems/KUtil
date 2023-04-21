@@ -1486,6 +1486,32 @@ ResponseProxy.proxy(
 
 ```
 
+### Curl解析以及转 OkhttpRequest
+
+```
+CurlDecoder(
+                """
+            curl 'xxxx' \
+              -H 'accept: application/json, text/javascript' \
+              -H 'accept-language: zh-CN,zh;q=0.9' \
+              -H 'ao-region: 333231ee-8b30-460c-ba2c-c8d797ec2fe1' \
+              -H 'ao-region-id: 1' \
+              -H 'content-type: application/x-www-form-urlencoded' \
+              -H 'cookie: xxxx' \
+              -H 'sec-ch-ua: "Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"' \
+              -H 'sec-ch-ua-mobile: ?0' \
+              -H 'sec-ch-ua-platform: "Windows"' \
+              -H 'sec-fetch-dest: empty' \
+              -H 'sec-fetch-mode: cors' \
+              -H 'sec-fetch-site: same-origin' \
+              -H 'x-requested-with: XMLHttpRequest' \
+              --compressed
+        """.trimIndent()
+            ).decode().let {
+                println(it.toString())
+            }.toOkhttpRequest()
+```
+
 ## android-okhttp 安卓Okhttp扩展库
 
 ```kotlin
