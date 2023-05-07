@@ -267,6 +267,30 @@ fun Process.printOut()
 
 ```
 
+### ShellProcessUtil 命令行进程工具类
+
+```kotlin
+/**
+ * 使用 jps -l 命令获取进程id
+ */
+fun findProcessIdByJps(jarName: String): String?
+
+/**
+ * 根据端口占用情况，获取进程id
+ * netstat命令
+ */
+fun findProcessIdByPort(port: String): String?
+
+/**
+ * ping 命令
+ * @param host 可以是域名，也可以是ip
+ * @param forEachLine 每一行的回调
+ * @return 返回ping的最终结果(所有)
+ */
+fun ping(host: String, forEachLine: ((String) -> Unit)? = null): String
+
+```
+
 ### AnyEx.kt
 
 ```kotlin
@@ -479,7 +503,7 @@ object IDCardValidator {
 
 ```kotlin
 // return 是否符合Vin 号校验规则
-VinValidator.validatorVin(vin: String): Boolean
+fun VinValidator.validatorVin(vin:String): Boolean
 ```
 
 ### 流/IO/ByteArray 辅助类
@@ -1107,6 +1131,7 @@ object ViewShot {
      * https://gist.github.com/PrashamTrivedi/809d2541776c8c141d9a
      */
     fun shotRecyclerView(view: RecyclerView): Bitmap?
+}
 
 ```
 
