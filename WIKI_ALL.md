@@ -64,7 +64,16 @@ fun Calendar.setFieldEx(
     millions: Int? = null,
 )
 
-// 设置某个时间的开始或结束: 例如 今天的开始时间, 0时0分0秒0毫秒
+/**
+ * 设置 [cField] 开始的时间或结束时间
+ *
+ * ex: 设置为当天开始的时间: cField传 [CalendarField.HOUR_OF_DAY] 得到 2012-12-12 00:00:00.000
+ * ex: 设置为当天结束的时间: cField传 [CalendarField.HOUR_OF_DAY] 得到 2012-12-12 23:59:59.999
+ * ex: 设置为当月开始的时间: cField传 [CalendarField.DAY_OF_MONTH] 得到 2012-12-01 00:00:00.000
+ * ex: 设置为当月结束的时间: cField传 [CalendarField.DAY_OF_MONTH] 得到 2012-12-31 23:59:59.999
+ *
+ * @param cField [CalendarField]
+ */
 fun Calendar.toFieldStartOrEnd(
     cField: CalendarField = CalendarField.YEAR,
     start: Boolean,

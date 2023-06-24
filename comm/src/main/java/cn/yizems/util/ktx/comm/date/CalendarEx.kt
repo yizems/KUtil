@@ -1,7 +1,7 @@
 package cn.yizems.util.ktx.comm.date
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
 
 fun Calendar.setFieldEx(
     year: Int? = null,
@@ -39,16 +39,21 @@ fun Calendar.setFieldEx(
 
 
 /**
- * 设置 [cField] 字段之后的值为开始或结束
+ * 设置 [cField] 开始的时间或结束时间
  *
- * @param cField Int [Calendar.MONTH]
+ * ex: 设置为当天开始的时间: cField传 [CalendarField.HOUR_OF_DAY] 得到 2012-12-12 00:00:00.000
+ * ex: 设置为当天结束的时间: cField传 [CalendarField.HOUR_OF_DAY] 得到 2012-12-12 23:59:59.999
+ * ex: 设置为当月开始的时间: cField传 [CalendarField.DAY_OF_MONTH] 得到 2012-12-01 00:00:00.000
+ * ex: 设置为当月结束的时间: cField传 [CalendarField.DAY_OF_MONTH] 得到 2012-12-31 23:59:59.999
+ *
+ * @param cField [CalendarField]
  */
 fun Calendar.toFieldStartOrEnd(
     cField: CalendarField = CalendarField.YEAR,
     start: Boolean,
 ): Calendar {
 
-    val optionFields = CalendarField.values().filter { it.field > cField.field }
+    val optionFields = CalendarField.values().filter { it.field >= cField.field }
 
     optionFields.reversed()
         .forEach {
