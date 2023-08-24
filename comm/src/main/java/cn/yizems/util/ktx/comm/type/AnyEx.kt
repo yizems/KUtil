@@ -8,3 +8,11 @@ inline fun <T> T?.runOnNull(block: () -> Unit) = this.apply {
         block()
     }
 }
+
+/**
+ * Null 时 使用 block 返回的值
+ */
+inline fun <T> T?.nullAs(block: () -> T) = this ?: block()
+
+fun <T> T?.nullAs(other: T) = this ?: other
+
